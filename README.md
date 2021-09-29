@@ -130,7 +130,7 @@ def save_insert() :
                                     <p>{{data.title}}</p>
                                 </figcaption>
                                 <a href = '/api/detail/{{ data.id}}' >
-                                <img src= /static/{{data.file}}
+                                <img // src= /static/{{data.file}}
                                      alt="여행장소"/></a>
                             </a>
                         </figure>
