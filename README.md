@@ -129,9 +129,9 @@ def save_insert() :
                                 <figcaption>
                                     <p>{{data.title}}</p>
                                 </figcaption>
-                                <a href = '/api/detail/{{ data.id}}' >
-                                // <img src= /static/{{data.file}}
-                                     alt="여행장소"/></a>
+                                <a // href = '/api/detail/{{ data.id}}' >
+                                 <img // src= /static/{{data.file}}
+                                     // alt="여행장소"/></a>
                             </a>
                         </figure>
                     </li>
