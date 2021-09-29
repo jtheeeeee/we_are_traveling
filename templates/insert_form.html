@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>위링 | 방구석 여행기</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Noto+Serif+KR:wght@300&display=swap"
+          rel="stylesheet">
+    <meta property="og:title" content="위링 여행정보"/>
+    <meta property="og:description" content="여행정보 공유기능"/>
+    <meta property="og:image" content="{{ url_for('static', filename='logo_white.png') }}"/>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>HTML</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+
+    <style>
+        * {
+            font-family: 'Nanum Myeongjo', serif;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .wrap {
+            width: 800px;
+            margin: auto;
+            background-color: lightsteelblue;
+            padding: 0px 10px 10px;
+        }
+
+        .button-top {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .content-wrap {
+            width: 500px;
+            margin: auto;
+            margin-top: 10px;
+            /*background-color: lightpink;*/
+        }
+
+
+        .button {
+            margin: 8px;
+            background-color: white;
+            border: 2px solid gray;
+            border-radius: 5px;
+            font-size: 25px;
+            border: 1px solid white;
+            border-radius: 10px;
+        }
+
+        .form-floating {
+            padding: 20px;
+            border: 2px solid gray;
+            border-radius: 5px;
+            background-color: aliceblue;
+            margin: 10px auto 0px auto;
+            position: center;
+            width: 800px;
+        }
+
+
+        .input-group mb-3 {
+            background-color: aliceblue;
+        }
+
+        .row {
+            padding: 3px 5px 3px;
+            margin-top: 0px;
+        }
+
+        .col {
+            padding: 10px 10px 10px 10px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            margin: 50px 0px 0px 0px;
+            background-color: aliceblue;
+        }
+
+        .content-wrap {
+            width: 600px;
+            margin: auto;
+            margin-top: 10px;
+            height: 1200px
+            /*background-color: lightpink;*/
+        }
+
+        .address {
+            width: 550px;
+        }
+
+        .home-button {
+            background-color: white;
+            margin: 100px 100px 100px 240px;
+            font-size: 25px;
+            border: 1px solid white;
+            border-radius: 10px;
+        }
+
+        .input-text {
+            height: 300px;
+        }
+
+    </style>
+
+
+</head>
+<body>
+<div class="jumbotron">
+    <div>
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+            featured content or information.</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    </div>
+</div>
+
+<div class="wrap" id="wrap">
+
+
+    <div class="button-top">
+        <div>
+            <button class="button" onclick="insert()">upload</button>
+            <button type="button" onClick="location.href='/'" class="button">back</button>
+        </div>
+    </div>
+
+
+    <div class="content-wrap">
+        <form>
+            <p><input type="date" id="date"></p>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm">제목</span>
+                <input type="text" id="title" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm">
+            </div>
+        </form>
+
+        <div class="image-container">
+            <img style="width: 600px; height:400px; " id="preview-image"
+                 src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+            <input style="display: block;" type="file" id="input-image">
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <p><input type="text" id="postcode" placeholder="우편번호" >
+                    <input type="button" onclick="postcode()" value="우편번호 찾기"><br></p>
+                <p><input type="text" class="address" id="roadAddress" ></p>
+                <span id="guide" style="color:#999;display:none"></span>
+                <input type="text" class="address" id="detailAddress">
+            </div>
+
+            <div class="form-floating">
+            <textarea class="form-control" style="max-height:220px; min-height:220px; height:220px;"
+                      placeholder="내용을 입력해 주세요" id="content"
+                      style="height: 100px"></textarea>
+                <label for="floatingTextarea2"></label>
+                <div class="d-grid gap-2 d-md-block">
+                </div>
+            </div>
+        </div>
+        <button type="button" onClick="location.href='/'" class="home-button">home</button>
+    </div>
+</div>
+</body>
+<script>
+
+    function postcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                var addr = ''; // 주소 변수
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("roadAddress").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddress").focus();
+            }
+        }).open();
+    }
+
+    function setThumbnail(event) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var img = document.createElement("img");
+            img.setAttribute("src", event.target.result);
+            document.querySelector("div#image_container").appendChild(img);
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function readImage(input) {
+        // 인풋 태그에 파일이 있는 경우
+        if (input.files && input.files[0]) {
+            // 이미지 파일인지 검사 (생략)
+            // FileReader 인스턴스 생성
+            const reader = new FileReader()
+            // 이미지가 로드가 된 경우
+            reader.onload = e => {
+                const previewImage = document.getElementById("preview-image")
+                previewImage.src = e.target.result
+            }
+            // reader가 이미지 읽도록 하기
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    // input file에 change 이벤트 부여
+    const inputImage = document.getElementById("input-image")
+    inputImage.addEventListener("change", e => {
+        readImage(e.target)
+    })
+
+    function insert() {
+    alert('upload')
+    let bool='True'
+    let content_file = $('#input-image')[0].files[0]
+    if (content_file === undefined){
+        bool="False"
+        content_file='none'
+    }
+    let date = $('#date').val()
+    let title = $('#title').val()
+    let postcode = $('#postcode').val()
+    let roadaddress = $('#roadAddress').val()
+    let detailaddress = $('#detailAddress').val()
+    let content = $('#content').val()
+    let form_data = new FormData()
+    console.log( content_file, date, title, postcode)
+    form_data.append("bool",bool)
+    form_data.append("file_give", content_file)
+    form_data.append("title_give", title)
+    form_data.append("content_give", content)
+    form_data.append("date_give", date)
+    form_data.append("postcode_give", postcode)
+    form_data.append("roadaddress_give", roadaddress)
+    form_data.append("detailaddress_give", detailaddress)
+
+    $.ajax({
+        type: "POST",
+        url: "/api/insert_form",
+        data: form_data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            alert('입력완료')
+            window.location.replace('/')
+        }
+    });
+}
+
+
+
+
+</script>
+
+</html>

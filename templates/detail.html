@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <title>위링, We're Traveling</title>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Noto+Serif+KR:wght@300&display=swap"
+          rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Nanum Myeongjo', serif;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .jumbotron {
+            display: flex;
+            justify-content: center;
+        }
+
+        .wrap {
+            width: 800px;
+            margin: auto;
+            background-color: lightsteelblue;
+            padding: 0px 10px 10px;
+        }
+
+        .button-top {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .content-wrap {
+            width: 400px;
+            margin: auto;
+            margin-top: 10px;
+
+        }
+
+        .date {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0px;
+        }
+
+        .button {
+            background-color: transparent;
+            border: none;
+        }
+
+        .img {
+            height: 400px;
+
+            background-position: center;
+            background-size: cover;
+        }
+
+        .title {
+            padding: 3px 5px 3px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            background-color: aliceblue;
+            margin-top: 10px;
+        }
+
+        .location {
+            padding: 3px 5px 3px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            background-color: aliceblue;
+            margin-top: 10px;
+        }
+
+        .content {
+            padding: 3px 5px 3px;
+            border: 1px solid gray;
+            border-radius: 5px;
+            background-color: aliceblue;
+            margin-top: 10px;
+            font-size: 50px;
+        }
+
+        .button-bottom {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 100px;
+        }
+
+
+        .input-group mb-3 {
+            background-color: aliceblue;
+        }
+    </style>
+
+    <script>
+        function delete_content(id) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/api/delete',
+                    data: {id_give:id},
+                    success: function (response) {
+                        alert(response["msg"]);
+                        window.location.replace('/')
+                    }
+                });
+        }
+
+        function update_content(data){
+            $.ajax({
+                    type: 'POST',
+                    url: '/api/update',
+                    data: {data_give:data},
+                    success: function (response) {
+                        alert(response["msg"]);
+                    }
+                });
+        }
+    </script>
+</head>
+<body>
+<div class="jumbotron">
+    <div>
+        <h1 class="display-4">Hello, world!</h1>
+        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
+            featured content or information.</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+    </div>
+
+</div>
+<div class="wrap" id="wrap">
+    <div class="button-top">
+        <div>
+            <a class="update_content" href={{ url_for('update' ,id= data.id) }} >update</a>
+            <button class="button" onclick="delete_content({{ data.id }})">delete</button>
+        </div>
+    </div>
+    <div class="content-wrap">
+        <div class="date">{{ data.date }}</div>
+        <img class="img" src="/static/{{ data.file }}" width="400px" height="400px">
+        <div class="title">{{ data.title }}</div>
+        <div class="location" id="address">{{ data.roadaddress}}, {{data.detailaddress}} ({{ data.postcode }})</div>
+        <div class="content">
+            {{ data.content }}
+        </div>
+    </div>
+    <div class="button-bottom">
+        <a class="button" href= {{ url_for('read' ,id= prev_id) }} >< previous</a>
+        <a class="button" href="/">home</a>
+        <a class="button" href={{ url_for('read' ,id= next_id) }} >next ></a>
+
+    </div>
+
+
+
+</div>
+</body>
+</html>
