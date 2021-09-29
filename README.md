@@ -104,7 +104,7 @@ def save_insert() :
 1. Pagination 기능 구현중 JavaScript 사용시 문제가 발생하여 Jinja 문법을 사용하여 수정 하였다.
     <div class="page">
 {% if block_start - 1 > 0 %}
-    <a  href="{{url_for('board_list', page=block_start - 1)}}" >[이전]</a>
+    <a  // href="{{url_for('board_list', page=block_start - 1)}}" >[이전]</a>
 {% endif %}
 {% for i in range(block_start, block_end + 1)%}
     {% if i > last_page_num %}
@@ -112,12 +112,12 @@ def save_insert() :
         {% if i == page %}
             <b>{{ i }}</b>
         {% else %}
-            <a  href="{{url_for('board_list', page=i)}}">{{ i }}</a>
+            <a  // href="{{url_for('board_list', page=i)}}">{{ i }}</a>
         {% endif %}
     {% endif %}
 {% endfor %}
 {% if block_end < last_page_num %}
-    <a  href="{{url_for('board_list', page=block_end + 1)}}"  >[다음]</a>
+    <a  // href="{{url_for('board_list', page=block_end + 1)}}"  >[다음]</a>
 {% endif %}
     </div>
 
