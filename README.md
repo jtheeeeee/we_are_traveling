@@ -1,9 +1,8 @@
 ## 스파르타내일배움캠프 첫 번째 프로젝트(Weling)
-![Generic badge](https://img.shields.io/badge/pycharm-3.8-{yellowgreen}.svg) ![Generic badge](https://img.shields.io/badge/Robo 3T-1.4.4-{green}.svg) ![Generic badge](https://img.shields.io/badge/mongoDB-5.0-{orange}.svg) ![Generic badge](https://img.shields.io/badge/Flask-2.0.1-{blue}.svg)  
+![Generic badge](https://img.shields.io/badge/pycharm-3.8-{yellowgreen}.svg) ![Generic badge](https://img.shields.io/badge/Robo3T-1.4.4-{green}.svg) ![Generic badge](https://img.shields.io/badge/mongoDB-5.0-{orange}.svg) ![Generic badge](https://img.shields.io/badge/Flask-2.0.1-{blue}.svg)  
 
-![]
-(https://github.com/jtheeeeee/we_are_traveling/blob/main/static/img/logo.png) 
-
+<p align="center"><img src="./static/img/logo.png" height="200px" width="300px"></p>
+ 
 
 ### 🔗라이브
 [We-ling.shop.kr](We-ling.shop.kr)  
@@ -11,7 +10,7 @@
 ### ✈️ 소개
 위링(we-ling)은 여행을 기반으로한 정보 공유 및 커뮤니티 기능을 가지고 있습니다.
 We are traveling의 약자이며 여행자들을 대상으로 서비스를 제공합니다.  
-
+    
 ### 🛠 기능 요약
 1. 웹사이트 이용자가 여행 전, 여행 계획 및 예산안을 작성, 공유하고 이용자들의 의견을 얻을 수 있도록 정보 공유를 목적으로 하는 커뮤니티 기능을 가집니다.
 2. 웹사이트 이용자가 여행 후, 여행 날짜/여행 사진/제목/여행 주소/여행 내용(예산안, 이동 경로)를 작성하고 이를 열람함으로써 여행 일지를 공유할 수 있습니다.  
