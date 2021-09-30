@@ -28,154 +28,263 @@
     <title>Title</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Noto+Serif+KR:wght@300&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
     <style>
         * {
-            font-family: 'Nanum Myeongjo', serif;
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Jua', sans-serif;
         }
 
-        .jumbotron {
-            display: flex;
-            justify-content: center;
+        @import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+        a:link {
+            text-decoration: none;
+
         }
 
-        .wrap {
-            width: 800px;
-            margin: auto;
-            background-color: lightsteelblue;
-            padding: 0px 10px 10px;
+        a:visited {
+            text-decoration: none;
+
         }
 
-        .button-top {
-            display: flex;
-            justify-content: flex-end;
+        a:hover {
+            text-decoration: none;
+            color:white;
+        }
+
+        .body-color {
+            background-color: black;
+        }
+
+        .box-wrap {
+            width: 100%;
+            height: 100vh;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            align-items: center; /* 수직 정렬 */
+
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center; /* 수평 정렬 */
+        }
+
+        .photo-book {
+            width: 42%;
+            height: 80%;
+            float: left;
+            padding: 10px;
+            background-color: aliceblue;
+            box-shadow: 4px 5px 6px 2px lightgrey;
+        }
+
+        .side-book {
+            width: 38%;
+            height: 80%;
+            float: left;
+            padding: 10px;
+            background-color:aliceblue;
+            box-shadow: 4px 5px 6px 2px grey;
+        }
+
+        .arrow-font {
+            font-family: 'Chango', cursive;
+            font-size: 400%;
+        }
+
+        .left-button {
+            position: fixed;
+            top: 50%;
+            left: 5%;
+            color: whitesmoke;
+
+        }
+
+        .right-button {
+            position: fixed;
+            top: 50%;
+            right: 5%;
+            color: whitesmoke;
+
+        }
+
+        .update_button {
+            position: fixed;
+            top: 85%;
+            left: 45%;
+            font-size: 20px;
+            color: palevioletred;
+            z-index: 3;
+        }
+
+        .delete_button {
+            position: fixed;
+            top: 93%;
+            left: 86%;
+            font-size: 20px;
+            color: chocolate;
+            background-color: white;
+            z-index: 3;
+        }
+
+        .likes {
+            position: fixed;
+            top: 83%;
+            left: 61.5%;
         }
 
         .content-wrap {
-            width: 400px;
+            width: 100%;
             margin: auto;
             margin-top: 10px;
-
         }
 
-        .date {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 0px;
+        .pola {
+            position: fixed;
+            top: 25%;
+            left: 18%;
+            width: 27%;
+            height: 60%;
         }
 
-        .button {
-            background-color: transparent;
-            border: none;
+        .polaroid {
+            position: fixed;
+            left: 21%;
+            top: 30.7%;
+            width: 21%;
+            height: 37.5%;
         }
 
-        .img {
-            height: 400px;
+        .tape {
+            position: fixed;
+            top: 22%;
+            left: 31%;
+            width: 3%;
+            height: 15%;
+            transform: rotate(27deg);
+        }
 
-            background-position: center;
-            background-size: cover;
+        .home-button {
+            position: fixed;
+            left: 1%;
+            top: 1%;
+            font-size: 300%;
+            color: whitesmoke;
+
         }
 
         .title {
-            padding: 3px 5px 3px;
-            border: 1px solid gray;
+            padding: 3px 5px 3px 5px;
+            width: 50%;
             border-radius: 5px;
-            background-color: aliceblue;
             margin-top: 10px;
+            margin-left: 10px;
+            font-family: 'Jua', sans-serif;
+            font-size: 30px;
+            border-bottom: 2px solid lightgray;
         }
 
         .location {
-            padding: 3px 5px 3px;
-            border: 1px solid gray;
-            border-radius: 5px;
-            background-color: aliceblue;
+            position: fixed;
+            display: flex;
+            left: 21%;
+            top: 71.5%;
             margin-top: 10px;
+            z-index: 3;
+        }
+
+        .date {
+            position: fixed;
+            display: flex;
+            left: 21%;
+            top: 70%;
+            justify-content: flex-end;
+            margin-bottom: 0px;
+            z-index: 3;
         }
 
         .content {
             padding: 3px 5px 3px;
-            border: 1px solid gray;
             border-radius: 5px;
-            background-color: aliceblue;
+            background-color: white;
             margin-top: 10px;
-            font-size: 50px;
+            font-size: 30px;
+            height: 70%;
         }
 
-        .button-bottom {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 100px;
+        .content-in {
+            padding: 3px 5px 3px;
+            border-radius: 5px;
+            background-color: white;
+            margin-top: 10px;
+            font-size: 20px;
+            color: gray;
+            height: 70%;
         }
 
-
-        .input-group mb-3 {
-            background-color: aliceblue;
-        }
     </style>
-
     <script>
         function delete_content(id) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/api/delete',
-                    data: {id_give:id},
-                    success: function (response) {
-                        alert(response["msg"]);
-                        window.location.replace('/')
-                    }
-                });
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/delete',
+                data: {id_give: id},
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.replace('/')
+                }
+            });
         }
 
-        function update_content(data){
+        function update_content(data) {
             $.ajax({
-                    type: 'POST',
-                    url: '/api/update',
-                    data: {data_give:data},
-                    success: function (response) {
-                        alert(response["msg"]);
-                    }
-                });
+                type: 'POST',
+                url: '/api/update',
+                data: {data_give: data},
+                success: function (response) {
+                    alert(response["msg"]);
+                }
+            });
         }
     </script>
 </head>
-<body>
-<div class="jumbotron">
-    <div>
-        <h1 class="display-4">Hello, world!</h1>
-        <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to
-            featured content or information.</p>
-        <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    </div>
+<body class="body-color">
 
-</div>
-<div class="wrap" id="wrap">
-    <div class="button-top">
-        <div>
-            <a class="update_content" href={{ url_for('update' ,id= data.id) }} >update</a>
-            <button class="button" onclick="delete_content({{ data.id }})">delete</button>
+<div class="box-wrap" id="wrap">
+    <a class="button home-button" href="/">X</a>
+    <div class="photo-book">
+        <div class="title">제목 : {{ data.title }}</div>
+        <div class="button-top">
+            <div>
+                <a class="update_button" href={{ url_for('update',id= data.id) }}>update</a>
+                <button class="delete_button" onclick="delete_content({{ data.id }})">delete</button>
+            </div>
+        </div>
+        <div class="content-wrap">
+            <div class="date">{{ data.date }}</div>
+            <img class="pola" src="{{ url_for('static', filename='img/pola.png') }}" alt="icon">
+            <img class="polaroid" src="/static/{{ data.file }}">
+            <img class="tape" src="{{ url_for('static', filename='img/masking_tape.png') }}" alt="icon">
         </div>
     </div>
-    <div class="content-wrap">
-        <div class="date">{{ data.date }}</div>
-        <img class="img" src="/static/{{ data.file }}" width="400px" height="400px">
-        <div class="title">{{ data.title }}</div>
-        <div class="location" id="address">{{ data.roadaddress}}, {{data.detailaddress}} ({{ data.postcode }})</div>
-        <div class="content">
-            {{ data.content }}
+    <div class="side-book">
+        <div class="location" id="address">{{ data.roadaddress }}<br>({{ data.detailaddress }})
         </div>
+        <div class="content">여행 일지 : <br>
+            <div class="content-in">{{ data.content }}</div>
+        </div>
+        <div class="button-center">
+            <a class="left-button arrow-font" href={{ url_for('read' ,id= prev_id) }}><</a>
+            <a class="right-button arrow-font" href={{ url_for('read' ,id= next_id) }}>></a>
+        </div>
+        <div class="likes">
+            <span style='font-size:32px; color:lightpink'>&#128151; 11,902 Likes</span> &nbsp; &nbsp;
+             <span style='font-size:32px; color:dimgray'>&#128172; Comments</span></div>
     </div>
-    <div class="button-bottom">
-        <a class="button" href= {{ url_for('read' ,id= prev_id) }} >< previous</a>
-        <a class="button" href="/">home</a>
-        <a class="button" href={{ url_for('read' ,id= next_id) }} >next ></a>
-
-    </div>
-
-
-
 </div>
 </body>
 </html>
