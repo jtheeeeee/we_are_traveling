@@ -6,7 +6,7 @@
  
 
 ### 🔗라이브
-[We-ling.shop.kr](We-ling.site)  
+[We-ling.site](We-ling.site)  
 
 ### ✈️ 소개
 위링(we-ling)은 여행을 기반으로한 정보 공유 및 커뮤니티 기능을 가지고 있습니다.
