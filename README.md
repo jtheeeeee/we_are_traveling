@@ -1,36 +1,36 @@
-##스파르타내일배움캠프 첫 번째 프로젝트(Weling)
+## 스파르타내일배움캠프 첫 번째 프로젝트(Weling)
 ![Generic badge](https://img.shields.io/badge/pycharm-3.8-{yellowgreen}.svg) ![Generic badge](https://img.shields.io/badge/Robo 3T-1.4.4-{green}.svg) ![Generic badge](https://img.shields.io/badge/mongoDB-5.0-{orange}.svg) ![Generic badge](https://img.shields.io/badge/Flask-2.0.1-{blue}.svg)  
 
 ![]
 (https://github.com/jtheeeeee/we_are_traveling/blob/main/static/img/logo.png) 
 
 
-###🔗라이브
+### 🔗라이브
 [We-ling.shop.kr](We-ling.shop.kr)  
 
-###✈️ 소개
+### ✈️ 소개
 위링(we-ling)은 여행을 기반으로한 정보 공유 및 커뮤니티 기능을 가지고 있습니다.
 We are traveling의 약자이며 여행자들을 대상으로 서비스를 제공합니다.  
 
-###🛠 기능 요약
+### 🛠 기능 요약
 1. 웹사이트 이용자가 여행 전, 여행 계획 및 예산안을 작성, 공유하고 이용자들의 의견을 얻을 수 있도록 정보 공유를 목적으로 하는 커뮤니티 기능을 가집니다.
 2. 웹사이트 이용자가 여행 후, 여행 날짜/여행 사진/제목/여행 주소/여행 내용(예산안, 이동 경로)를 작성하고 이를 열람함으로써 여행 일지를 공유할 수 있습니다.  
 
-###⏰ 개발 기간
+### ⏰ 개발 기간
 2021년 9월 23일 ~ 2021년 09월 30일  
 
-###👩‍💻 멤버 구성
+### 👩‍💻 멤버 구성
 - 정태희(팀장)
 - 김혜린
 - 서성혁
 - 우성호  
 
-###📌 기술
+### 📌 기술
 - HTML, CSS, JavaScript, Ajax, Jinja, jQuery
 - pycharm, Robo3-T
 - Flask, jinja2, aws, mongodb  
 
-###📌 기술 선택 이유
+### 📌 기술 선택 이유
 - Flask: Flask는 다양한 웹 엔진과 붙여서 사용할 수 있으며 코드가 다른 프레임워크인 Django에 비해 비교적 단순하기 때문에 선택하였고. 또한, API서버를 만드는데 매우 편리하기 때문에 백엔드를 중심으로 개발하는 이번 프로젝트에 적합하다고 판단하였습니다.
 
 - jinja2: Flask 사용시 html코드 내에서 파이썬 API에서 보내는 정보의 출력이나, html코드의 동적 제어등을 쉽게 사용할 수 있기 때문입니다.
@@ -41,7 +41,7 @@ We are traveling의 약자이며 여행자들을 대상으로 서비스를 제�
 
 - kakao 우편번호 서비스(API): API 정보를 쉽게 사용할수 있고, API TOKEN 없이도 사용할 수 있는 정보들이 많아서 편리합니다.
 
-###📌 주요 기능
+### 📌 주요 기능
 - 게시글 작성: 한 장의 사진과 함께 여행 경험을 작성할 수 있습니다.
 
 - 게시글 수정: 게시글의 날짜, 사진, 주소, 내용을 수정할수 있는화면을 제공합니다.
@@ -52,4 +52,4 @@ We are traveling의 약자이며 여행자들을 대상으로 서비스를 제�
 
 - kakao 우편번호 API: 여행 장소의 구체적인 주소를 검색할 수 있는 기능을 제공합니다.  
 
-###📌 문제 해결!
+### 📌 문제 해결!
