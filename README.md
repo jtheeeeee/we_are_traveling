@@ -37,3 +37,5 @@ We are traveling의 약자이며 여행자들을 대상으로 서비스를 제�
  
 
 ### 📌 문제 해결! [ - 상세보기](https://github.com/jtheeeeee/we_are_traveling/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85)
+
+## 📌 2차 프로젝트 SA [ - 상세보기](https://github.com/jtheeeeee/we_are_traveling/wiki/2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-SA)
