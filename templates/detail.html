@@ -18,6 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <title>위링, We're Traveling</title>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
@@ -360,6 +361,23 @@
         }
     </style>
     <script>
+
+        $(document).ready(function () {
+            temp_token('id0', 'pwpw0');
+        })
+
+
+        function temp_token(id, pw){
+            $.ajax({
+                type: 'POST',
+                url: '/api/temp-token',
+                data: {id_give: id, pw_give: pw},
+                success: function (response) {
+                    $.cookie('mytoken', response['token'], {path: '/'});
+                }
+            });
+        }
+
         function delete_content(id) {
             $.ajax({
                 type: 'DELETE',
@@ -392,7 +410,8 @@
                 url: "/api/comment-save",
                 data: {
                     comment_give: comment,
-                    date_give: today
+                    date_give: today,
+                    content_id:{{ data.id }}
                 },
                 success: function (response) {
                     alert(response['msg'])
