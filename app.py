@@ -105,6 +105,7 @@ def save_insert() :
 @app.route("/api/detail/<int:id>", methods=['GET'])
 def read(id) :
     datas=list(db.weling.find({}))
+    comments=list(db.comments.find({'content_id':str(id)}))
     end=len(datas)
     print(id)
     print(list(db.weling.find({'id':id})))
@@ -116,7 +117,7 @@ def read(id) :
         next_index = 0
     next_data_id= datas[next_index]['id']
     prev_data_id=datas[prev_index]['id']
-    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id)
+    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id, comments=comments)
 
 
 @app.route("/api/update/<int:id>", methods=['GET'])
