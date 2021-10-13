@@ -21,7 +21,7 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+    <link href='{{ url_for("static", filename="main.css") }}' rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -38,7 +38,7 @@
         body { display: flex; align-content: center; justify-content: center; }
         #body_all { width: 100%; overflow: hidden; }
         #header {position: absolute;width: 100%;padding: 50px 0;background-color: transparent;z-index: 4;}
-        #header h1 {position: absolute;left: 60%;top: 50%;transform: translate(-50%, -50%);text-align: center;color: white;}
+        #header h1 {position: absolute;left: 60%;top: 50%;transform: translate(-50%, -50%);text-align: center;color: black;}
         #header img {position: absolute;right: 85%;top: 50%;transform: translate(-50%, -50%);width: 70px;height: 50px;}
         .subtitle {font-size: small;}
         #main {width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-wrap: wrap;margin-bottom: 20px;}
@@ -59,14 +59,18 @@
         .table_file_img{width: 100%; height:100%;  }
         .table_file_input{display: block; margin-bottom: 5px;}
         .upload-button { background-color: white; margin: 20px 0px 20px 0px; padding: 5px; font-size: 20vm; border: 1px solid black; border-radius: 10px; position:relative; right: -40%; top: 50%; }
+        .navbar-light {position: center; padding: 2%; bottom: 50px;}
     </style>
 </head>
 <body>
 <div id="body_all">
     <header id="header">
         <!--제목과 메뉴-->
-        <a href="/"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span class="subtitle">we're traveling</span>
-        </h1></a>
+         <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <a href="#"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span
+                class="subtitle">we're traveling</span></h1></a>
     </header>
     <main id="main">
         <!--메인비주얼-->
@@ -107,8 +111,13 @@
                         <img class="table_file_img" id="preview-image"
                              src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
                     </div>
-                    <input class="table_file_input" type="file" id="input-image">
-                </td>
+                    <input class="table_file_input" type="file" id="input-image" accept="image/*" multiple>
+                    <p>
+
+
+        <a href="/" onclick="return confirm('제출 성공! \n업로드한 이미지를 확인합니다.');">제출하기</a>
+    </p>
+
             </tr>
             <tr>
                 <th>
@@ -176,10 +185,10 @@
 
     function insert() {
         let bool = 'True'
-        let content_file = $('#input-image')[0].files[0]
-        if (content_file === undefined) {
+        let content_files = $('#input-image')[0].files
+        if (content_files === undefined) {
             bool = "False"
-            content_file = 'none'
+            content_files = 'none'
         }
         let date = $('#date').val()
         let title = $('#title').val()
@@ -188,9 +197,9 @@
         let detailaddress = $('#detailAddress').val()
         let content = $('#content').val()
         let form_data = new FormData()
-        console.log(content_file, date, title, postcode)
+        console.log(content_files, date, title, postcode)
         form_data.append("bool", bool)
-        form_data.append("file_give", content_file)
+        form_data.append("file_give", content_files)
         form_data.append("title_give", title)
         form_data.append("content_give", content)
         form_data.append("date_give", date)
