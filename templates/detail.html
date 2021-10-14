@@ -360,12 +360,17 @@
             font-size: 10px;
             margin-right: 20px;
         }
-        
+        .comment-delete{
+            background-color: transparent;
+            border: none;
+        }
+
     </style>
     <script>
 
+
         $(document).ready(function () {
-            temp_token('id3', 'pwpw3');
+            temp_token('id2', 'pwpw2');
         })
 
 
@@ -421,6 +426,19 @@
             })
         }
 
+        function delete_comment(username, date) {
+            console.log(username)
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/comment-remove',
+                data: {username_give: username, date_give: date },
+                success: function (response) {
+                    alert(response["msg"]);
+                    window.location.reload()
+                }
+            });
+        }
+
     </script>
 </head>
 <body class="body-color">
@@ -462,13 +480,15 @@
                         <article class="media">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src="{{ url_for('static', filename= comment.userprofile) }}">
                             </p>
                         </figure>
                         <div class="media-content">
                             <div class="content" id="comment-content">
                                 <p>
                                     <strong>{{ comment.username}}</strong>
+                                    {% if id == comment.username %}
+                                        <button class="comment-delete" onclick="delete_comment('{{ comment.username }}','{{ comment.date }}')"><span class="icon is-small"><i class="fa fa-trash-o"></i></span></button>{% endif %}
                                     <br>
                                     {{ comment.comment}}
                                     <br>
