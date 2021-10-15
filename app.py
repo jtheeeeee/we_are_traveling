@@ -171,6 +171,15 @@ def delete():
     return jsonify({'result': 'success', 'msg': '삭제 완료'})
     # return render_template("main.html")
 
+<<<<<<< HEAD
+=======
+@app.route('/api/comment-save', methods=['POST'])
+def comment_save():
+    comment_receive = request.form['comment_give']
+    date_receive = request.form['date_give']
+    print(comment_receive)
+    return jsonify({'result' : 'success', 'msg' : comment_receive+date_receive})
+>>>>>>> parent of 713165d (Merge pull request #46 from jtheeeeee/taehee)
 
 if __name__ == '__main__' :
     app.run('0.0.0.0', port=5000, debug=True)

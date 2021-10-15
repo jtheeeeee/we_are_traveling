@@ -250,6 +250,28 @@
                 }
             });
         }
+<<<<<<< HEAD
+=======
+
+
+        function comment_post() {
+            let comment = $("#comment-textarea").val()
+            let today = new Date().toISOString()
+            $.ajax({
+                type: "POST",
+                url: "/api/comment-save",
+                data: {
+                    comment_give: comment,
+                    date_give: today
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+
+>>>>>>> parent of 713165d (Merge pull request #46 from jtheeeeee/taehee)
     </script>
 </head>
 <body class="body-color">
