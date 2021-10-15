@@ -446,49 +446,7 @@
 
 
             <section id="content2" class="tab-content">
-                <div class="comment_wrap" style="height: 68%;  overflow:auto; ">
-                    {% for i in range(comments_len) %}
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="{{ url_for('static', filename= comments[i].userprofile) }}">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content" id="comment-content">
-                                    <p>
-                                        <strong>{{ comments[i].username }}</strong>
-                                        {% if id == comments[i].username %}
-                                            <button class="comment-update"
-                                                    onclick="update_textarea('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
-                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
-                                            </button>
-                                            <button class="comment-delete"
-                                                    onclick="delete_comment('{{ comments[i].username }}','{{ comments[i].date }}')">
-                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
-                                            </button>
 
-                                        {% endif %}
-                                        <br>
-                                    <div class="comment-content-{{ i }}">
-                                        {{ comments[i].comment }}
-
-                                    </div>
-                                    <br>
-                                    <div class="update-comment-{{ i }} is-hidden">
-                                           <textarea id="comment-textarea-{{ i }}" class="textarea"
-                                           >{{ comments[i].comment }}</textarea>
-                                        <button onclick="update_comment('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
-                                            update
-                                        </button>
-                                    </div>
-                                    <small>3 hrs</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
                 <div style="height: 32%; font-size: 5px; margin-right: 20px;">
                     <article class="media">
                         <figure class="media-left">
