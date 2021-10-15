@@ -226,6 +226,136 @@
             height: 70%;
         }
 
+<<<<<<< HEAD
+=======
+        @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css');
+
+        *,
+        *:after,
+        *:before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .clearfix:before,
+        .clearfix:after {
+            content: " ";
+            display: table;
+        }
+
+        .clearfix:after {
+            clear: both;
+        }
+
+        body {
+            font-family: sans-serif;
+            background: #f6f9fa;
+        }
+
+        h1 {
+            color: #ccc;
+            text-align: center;
+        }
+
+        a {
+            color: #ccc;
+            text-decoration: none;
+            outline: none;
+        }
+
+        /*Fun begins*/
+        .tab_container {
+            width: 90%;
+            height: 83%;
+            margin: 0 auto;
+            padding-top: 20px;
+            position: relative;
+        }
+
+
+        input, section {
+            clear: both;
+            padding-top: 10px;
+            display: none;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 18px;
+            display: block;
+            float: left;
+            width: 20%;
+            padding: 1.5em;
+            color: #757575;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            background: #f0f0f0;
+        }
+
+        #tab1:checked ~ #content1,
+        #tab2:checked ~ #content2 {
+            display: block;
+            padding: 20px;
+            background: #fff;
+            height: 100%;
+            color: #999;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+
+        .tab_container .tab-content h3 {
+            text-align: center;
+        }
+
+        .tab_container [id^="tab"]:checked + label {
+            background: #fff;
+            box-shadow: inset 0 3px #0CE;
+        }
+
+        .tab_container [id^="tab"]:checked + label .fa {
+            color: #0CE;
+        }
+
+        label .fa {
+            font-size: 1.3em;
+            margin: 0 0.4em 0 0;
+        }
+
+        /*Media query*/
+        @media only screen and (max-width: 900px) {
+            label span {
+                display: none;
+            }
+
+            .tab_container {
+                width: 98%;
+            }
+        }
+
+        /*Content Animation*/
+        @keyframes fadeInScale {
+            0% {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .no_wrap {
+            text-align: center;
+            color: #0ce;
+        }
+
+        .link {
+            text-align: center;
+        }
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
     </style>
     <script>
         function delete_content(id) {
@@ -251,6 +381,7 @@
             });
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 
@@ -272,6 +403,8 @@
         }
 
 >>>>>>> parent of 713165d (Merge pull request #46 from jtheeeeee/taehee)
+=======
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
     </script>
 </head>
 <body class="body-color">
@@ -294,10 +427,36 @@
         </div>
     </div>
     <div class="side-book">
+<<<<<<< HEAD
         <div class="location" id="address">{{ data.roadaddress }}<br>({{ data.detailaddress }})
         </div>
         <div class="content">여행 일지 : <br>
             <div class="content-in">{{ data.content }}</div>
+=======
+        <div class="tab_container">
+            <input id="tab1" type="radio" name="tabs" checked>
+            <label for="tab1"><i class="fa fa-code"></i><span>Content</span></label>
+
+            <input id="tab2" type="radio" name="tabs">
+            <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>Comment</span></label>
+
+            <section id="content1" class="tab-content">
+                <p>{{ data.content }}</p>
+
+            </section>
+
+            <section id="content2" class="tab-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </section>
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
         </div>
         <div class="button-center">
             <a class="left-button arrow-font" href={{ url_for('read' ,id= prev_id) }}><</a>

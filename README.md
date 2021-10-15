@@ -6,7 +6,11 @@
  
 
 ### 🔗라이브
+<<<<<<< HEAD
 [We-ling.site](We-ling.site)  
+=======
+[weling.site](http://weling.site/)  
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
 
 ### ✈️ 소개
 위링(we-ling)은 여행을 기반으로한 정보 공유 및 커뮤니티 기능을 가지고 있습니다.
