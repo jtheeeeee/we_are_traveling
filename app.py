@@ -171,6 +171,7 @@ def delete():
     return jsonify({'result': 'success', 'msg': '삭제 완료'})
     # return render_template("main.html")
 
+
 @app.route('/api/comment-save', methods=['POST'])
 def comment_save():
     comment_receive = request.form['comment_give']
