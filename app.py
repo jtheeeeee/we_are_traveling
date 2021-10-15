@@ -174,6 +174,7 @@ def delete():
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> parent of 713165d (Merge pull request #46 from jtheeeeee/taehee)
@@ -187,6 +188,8 @@ def comment_save():
 >>>>>>> parent of 713165d (Merge pull request #46 from jtheeeeee/taehee)
 =======
 >>>>>>> parent of 713165d (Merge pull request #46 from jtheeeeee/taehee)
+=======
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
 =======
 >>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
 
