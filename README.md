@@ -6,7 +6,15 @@
  
 
 ### 🔗라이브
-[weling.site](http://weling.site/)
+<<<<<<< HEAD
+<<<<<<< HEAD
+[We-ling.site](We-ling.site)  
+=======
+[weling.site](http://weling.site/)  
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
+=======
+[weling.site](http://weling.site/)  
+>>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
 
 ### ✈️ 소개
 위링(we-ling)은 여행을 기반으로한 정보 공유 및 커뮤니티 기능을 가지고 있습니다.
@@ -37,5 +45,3 @@ We are traveling의 약자이며 여행자들을 대상으로 서비스를 제�
  
 
 ### 📌 문제 해결! [ - 상세보기](https://github.com/jtheeeeee/we_are_traveling/wiki/%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85)
-
-## 📌 2차 프로젝트 SA [ - 상세보기](https://github.com/jtheeeeee/we_are_traveling/wiki/2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-SA)
