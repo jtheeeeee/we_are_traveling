@@ -18,7 +18,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <title>위링, We're Traveling</title>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
@@ -360,31 +359,16 @@
             font-size: 10px;
             margin-right: 20px;
         }
-        .comment-delete{
-            background-color: transparent;
-            border: none;
+
+        .comment-delete {
+        {#background-color: transparent;#} border: none;
         }
 
+        .comment-update {
+        {#background-color: transparent;#} border: none;
+        }
     </style>
     <script>
-
-
-        $(document).ready(function () {
-            temp_token('id2', 'pwpw2');
-        })
-
-
-        function temp_token(id, pw){
-            $.ajax({
-                type: 'POST',
-                url: '/api/temp-token',
-                data: {id_give: id, pw_give: pw},
-                success: function (response) {
-                    $.cookie('mytoken', response['token'], {path: '/'});
-                }
-            });
-        }
-
         function delete_content(id) {
             $.ajax({
                 type: 'DELETE',
@@ -416,8 +400,7 @@
                 url: "/api/comment-save",
                 data: {
                     comment_give: comment,
-                    date_give: today,
-                    content_id:{{ data.id }}
+                    date_give: today
                 },
                 success: function (response) {
                     alert(response['msg'])
@@ -426,18 +409,6 @@
             })
         }
 
-        function delete_comment(username, date) {
-            console.log(username)
-            $.ajax({
-                type: 'DELETE',
-                url: '/api/comment-remove',
-                data: {username_give: username, date_give: date },
-                success: function (response) {
-                    alert(response["msg"]);
-                    window.location.reload()
-                }
-            });
-        }
 
     </script>
 </head>
@@ -455,7 +426,6 @@
         </div>
         <div class="content-wrap">
             <div class="date">{{ data.date }}</div>
-            <div class="location" id="address">{{ data.roadaddress }}<br>({{ data.detailaddress }})</div>
             <img class="pola" src="{{ url_for('static', filename='img/pola.png') }}" alt="icon">
             <img class="polaroid" src="/static/{{ data.file }}">
             <img class="tape" src="{{ url_for('static', filename='img/masking_tape.png') }}" alt="icon">
@@ -474,29 +444,49 @@
 
             </section>
 
+
             <section id="content2" class="tab-content">
                 <div class="comment_wrap" style="height: 68%;  overflow:auto; ">
-                    {% for comment in comments %}
+                    {% for i in range(comments_len) %}
                         <article class="media">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                                <img src="{{ url_for('static', filename= comment.userprofile) }}">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="content" id="comment-content">
-                                <p>
-                                    <strong>{{ comment.username}}</strong>
-                                    {% if id == comment.username %}
-                                        <button class="comment-delete" onclick="delete_comment('{{ comment.username }}','{{ comment.date }}')"><span class="icon is-small"><i class="fa fa-trash-o"></i></span></button>{% endif %}
-                                    <br>
-                                    {{ comment.comment}}
-                                    <br>
-                                    <small>3 hrs</small>
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="{{ url_for('static', filename= comments[i].userprofile) }}">
                                 </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content" id="comment-content">
+                                    <p>
+                                        <strong>{{ comments[i].username }}</strong>
+                                        {% if id == comments[i].username %}
+                                            <button class="comment-update"
+                                                    onclick="update_textarea('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
+                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
+                                            </button>
+                                            <button class="comment-delete"
+                                                    onclick="delete_comment('{{ comments[i].username }}','{{ comments[i].date }}')">
+                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
+                                            </button>
+
+                                        {% endif %}
+                                        <br>
+                                    <div class="comment-content-{{ i }}">
+                                        {{ comments[i].comment }}
+
+                                    </div>
+                                    <br>
+                                    <div class="update-comment-{{ i }} is-hidden">
+                                           <textarea id="comment-textarea-{{ i }}" class="textarea"
+                                           >{{ comments[i].comment }}</textarea>
+                                        <button onclick="update_comment('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
+                                            update
+                                        </button>
+                                    </div>
+                                    <small>3 hrs</small>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
                     {% endfor %}
                 </div>
                 <div style="height: 32%; font-size: 5px; margin-right: 20px;">
@@ -509,7 +499,8 @@
                         <div class="media-content">
                             <div class="field">
                                 <p class="control">
-                                    <textarea id="comment-textarea" class="textarea" placeholder="Add a comment..."></textarea>
+                                    <textarea id="comment-textarea" class="textarea"
+                                              placeholder="Add a comment..."></textarea>
                                 </p>
                             </div>
                             <div class="field">
@@ -520,10 +511,9 @@
                         </div>
                     </article>
                 </div>
-
             </section>
-        </div>
 
+        </div>
         <div class="button-center">
             <a class="left-button arrow-font" href={{ url_for('read' ,id= prev_id) }}><</a>
             <a class="right-button arrow-font" href={{ url_for('read' ,id= next_id) }}>></a>
