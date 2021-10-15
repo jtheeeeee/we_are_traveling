@@ -46,78 +46,51 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
-
     <style>
-        .login_all {
+        .modal_all {
             margin: 0px;
             padding: 0px;
             text-decoration: none;
             font-family: sans-serif;
-            width : 100%;
+            width: 100%;
             height: 100%;
-            background-color:cornflowerblue;
+            background-color: #08AEEA;
+            background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
 
         }
 
-        .loginForm {
-            position: absolute;
-            width: 300px;
-            height: 400px;
-            padding: 30px 20px;
+
+        .Login_Form {
+            width: 400px;
             background-color: #FFFFFF;
-            text-align: center;
-            top: 50%;
+            height: 500px;
+            padding: 80px 40px;
+            border-radius: 10px;
+            position: absolute;
             left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 15px;
+            top: 50%;
+            transform: translate(-50%, -50%)
+
+
         }
 
-        .loginForm h2 {
+        .Login_Form h1 {
             text-align: center;
-            margin: 30px;
+            margin-bottom: 60px;
+            color: #08AEEA
         }
 
-        .idForm {
-            border-bottom: 2px solid #adadad;
-            margin: 30px;
-            padding: 10px 10px;
-        }
 
-        .passForm {
-            border-bottom: 2px solid #adadad;
-            margin: 30px;
-            padding: 10px 10px;
-        }
-
-        .id {
-            width: 100%;
-            border: none;
-            outline: none;
-            color: #636e72;
-            font-size: 16px;
-            height: 25px;
-            background: none;
-        }
-
-        .pw {
-            width: 100%;
-            border: none;
-            outline: none;
-            color: #636e72;
-            font-size: 16px;
-            height: 25px;
-            background: none;
-        }
-
-        .btn {
+        .loginbt {
             position: relative;
-            left: 40%;
+            left: 50%;
             transform: translateX(-50%);
             margin-bottom: 40px;
-            width: 80%;
-            height: 40px;
+            width: 100%;
+            height: 50px;
             background: linear-gradient(125deg, #81ecec, #6c5ce7, #81ecec);
             background-position: left;
+            border-radius: 10px;
             background-size: 200%;
             color: white;
             font-weight: bold;
@@ -127,57 +100,176 @@
             display: inline;
         }
 
-        .btn:hover {
+
+        .loginbt:hover {
             background-position: right;
         }
 
-        .bottomText {
+
+        .signup_form {
+            width: 400px;
+            background-color: #FFFFFF;
+            height: 700px;
+            padding: 40px 40px;
+            border-radius: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%)
+
+
+        }
+
+        .signup_form h1 {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #08AEEA
+        }
+
+        .txtb {
+            border-bottom: 2px solid #adadad;
+            margin: 20px;
+        }
+
+        .txtb input {
+            font-size: 15px;
+            color: #333;
+            width: 100%;
+            border: none;
+            padding: 0 5px;
+            height: 40px;
+            outline: none;
+        }
+
+
+        .signup_btn {
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 30px;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(125deg, #81ecec, #6c5ce7, #81ecec);
+            background-position: left;
+            border-radius: 10px;
+            background-size: 200%;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s;
+            display: inline;
+        }
+
+        .signup_btn:hover {
+            background-position: right;
+        }
+
+        .bottom-text {
+            margin-top: 0px;
             text-align: center;
         }
+
+        .bottom-text a {
+            color: #08AEEA;
+        }
+
+
+
+
     </style>
     <script>
-                function toggle_sign_up() {
+        function toggle_sign_up() {
+            $("#login_box").toggleClass("is-hidden")
+            $("#signup_box").toggleClass("is-hidden")
 
-                }
-
-
+        }
     </script>
 
 
 </head>
 <body>
- <p><button class="login_out" onclick='$("#modal-post").addClass("is-active")'>로그인</button></p>
-
-<div class="modal login_all" id="modal-post">
-
-    <div  onclick='$("#modal-post").removeClass("is-active")'></div>
-
-<form action="index.html" method="post" class="loginForm">
-    <h2>Login</h2>
-    <div class="idForm">
-        <input id="input-username" type="text" class="id" placeholder="ID">
-    </div>
-    <div class="passForm">
-        <input id="input-password" type="password" class="pw" placeholder="PW">
-    </div>
-    <button type="button" class="btn" onclick="sign_in()">
-        LOG IN
-    </button>
-    <script>
-        let button = () => {
-            alert('login Button !')
-        }
-    </script>
-    <div class="bottomText">
-        Don't you have ID? <a href= "javascript:void(0);" onclick="toggle_sign_up();">sign up</a>
-
-    </div>
-</form>
+<p>
+    <button class="login_out" onclick='$("#modal-post").addClass("is-active")'>로그인</button>
+</p>
 
 
-                <button class="modal-close is-large" aria-label="close"
-                        onclick='$("#modal-post").removeClass("is-active")'></button>
+
+
+
+
+
+
+
+
+
+<div class="modal modal_all" id="modal-post">
+
+    <div onclick='$("#modal-post").removeClass("is-active")'></div>
+
+
+    <form action='index.html' id="login_box">
+        <div class="Login_Form">
+            <h1>LOGIN</h1>
+            <div class='txtb'><input type="text" placeholder='ID'></div>
+
+            <div class="txtb"><input type="password" placeholder='PW'></div>
+
+            <button type="button" class='loginbt' onclick="sign_in()">
+                LOG IN
+            </button>
+            <div class="bottom-text"> Don't you have ID? <a href="javascript:void(0);" onclick="toggle_sign_up();">sign
+                up</a>
             </div>
+        </div>
+    </form>
+
+
+    <form action='index.html' class="is-hidden" id="signup_box">
+        <div class="signup_form">
+            <h1>SIGN UP</h1>
+            <div style="margin-left: 35%;">
+            <figure class="media-left" style="align-self: center;">
+                <div class="image is-96x96">
+                    <img class="is-rounded" src="../static/profile_placeholder.png">
+                </div>
+            </figure>
+            <div class="file-label " style="width: 15%; margin-left: 40%; margin-top: -10%; ">
+                <input id="input-pic"  class="file-input " type="file" name="resume">
+                <i style="color:hotpink;" class="fa fa-plus-circle fa-2x " aria-hidden="true"></i>
+            </div>
+                </div>
+            <div class='txtb'><input type="text" placeholder='ID'>
+            </div>
+            <div class="txtb">
+                <input type="password" placeholder='PW'>
+            </div>
+            <div class="txtb">
+                <input type="text" placeholder='Name '>
+            </div>
+            <div class="txtb">
+                <input type="text" placeholder='Date of Birth '>
+            </div>
+
+            <div class="btn-group" data-toggle="buttons" style="margin-left: 50px;">
+                <label class="btn btn-primary" style="width: 100px;">
+                    <input type="radio" name="userGender" autocomplete="off" value="Man" checked>Man
+                </label>
+                <label class="btn btn-primary" style="width: 100px; margin-left: 20px">
+                    <input type="radio" name="userGender" autocomplete="off" value="Woman" checked>Woman
+                </label>
+            </div>
+            <button type="button" class='signup_btn' onclick="">
+                SIGN UP
+            </button>
+            <div class="bottom-text"><a href="javascript:void(0);" onclick="toggle_sign_up();">Go To Login</a>
+            </div>
+        </div>
+    </form>
+
+    <button class="modal-close is-large" aria-label="close"
+            onclick='$("#modal-post").removeClass("is-active")'></button>
+</div>
 
 </div>
 
