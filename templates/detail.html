@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -29,6 +29,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         * {
             font-family: 'Jua', sans-serif;
@@ -48,7 +49,7 @@
 
         a:hover {
             text-decoration: none;
-            color:white;
+            color: white;
         }
 
         .body-color {
@@ -87,7 +88,7 @@
             height: 80%;
             float: left;
             padding: 10px;
-            background-color:aliceblue;
+            background-color: aliceblue;
             box-shadow: 4px 5px 6px 2px grey;
         }
 
@@ -354,6 +355,18 @@
             text-align: center;
         }
 
+        #comment-content {
+            font-size: 10px;
+            margin-right: 20px;
+        }
+
+        .comment-delete {
+        {#background-color: transparent;#} border: none;
+        }
+
+        .comment-update {
+        {#background-color: transparent;#} border: none;
+        }
     </style>
     <script>
         function delete_content(id) {
@@ -402,7 +415,7 @@
 <body class="body-color">
 
 <div class="box-wrap" id="wrap">
-    <a class="button home-button" href="/">X</a>
+    <a class="home-button" href="/">X</a>
     <div class="photo-book">
         <div class="title">제목 : {{ data.title }}</div>
         <div class="button-top">
@@ -419,12 +432,6 @@
         </div>
     </div>
     <div class="side-book">
-
-        <div class="location" id="address">{{ data.roadaddress }}<br>({{ data.detailaddress }})
-        </div>
-        <div class="content">여행 일지 : <br>
-            <div class="content-in">{{ data.content }}</div>
-
         <div class="tab_container">
             <input id="tab1" type="radio" name="tabs" checked>
             <label for="tab1"><i class="fa fa-code"></i><span>Content</span></label>
@@ -437,16 +444,73 @@
 
             </section>
 
+
             <section id="content2" class="tab-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <div class="comment_wrap" style="height: 68%;  overflow:auto; ">
+                    {% for i in range(comments_len) %}
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="{{ url_for('static', filename= comments[i].userprofile) }}">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content" id="comment-content">
+                                    <p>
+                                        <strong>{{ comments[i].username }}</strong>
+                                        {% if id == comments[i].username %}
+                                            <button class="comment-update"
+                                                    onclick="update_textarea('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
+                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
+                                            </button>
+                                            <button class="comment-delete"
+                                                    onclick="delete_comment('{{ comments[i].username }}','{{ comments[i].date }}')">
+                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
+                                            </button>
+
+                                        {% endif %}
+                                        <br>
+                                    <div class="comment-content-{{ i }}">
+                                        {{ comments[i].comment }}
+
+                                    </div>
+                                    <br>
+                                    <div class="update-comment-{{ i }} is-hidden">
+                                           <textarea id="comment-textarea-{{ i }}" class="textarea"
+                                           >{{ comments[i].comment }}</textarea>
+                                        <button onclick="update_comment('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
+                                            update
+                                        </button>
+                                    </div>
+                                    <small>3 hrs</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+                <div style="height: 32%; font-size: 5px; margin-right: 20px;">
+                    <article class="media">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="field">
+                                <p class="control">
+                                    <textarea id="comment-textarea" class="textarea"
+                                              placeholder="Add a comment..."></textarea>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control">
+                                    <button class="button" onclick="comment_post()">Post comment</button>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
             </section>
 
         </div>
@@ -454,9 +518,7 @@
             <a class="left-button arrow-font" href={{ url_for('read' ,id= prev_id) }}><</a>
             <a class="right-button arrow-font" href={{ url_for('read' ,id= next_id) }}>></a>
         </div>
-        <div class="likes">
-            <span style='font-size:32px; color:lightpink'>&#128151; 11,902 Likes</span> &nbsp; &nbsp;
-             <span style='font-size:32px; color:dimgray'>&#128172; Comments</span></div>
+
     </div>
 </div>
 </body>
