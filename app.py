@@ -1,5 +1,4 @@
 import hashlib
-
 from pymongo import MongoClient
 from flask import Flask, render_template, jsonify, request, url_for, redirect
 from datetime import datetime, timedelta
@@ -104,7 +103,11 @@ def save_insert() :
 
 @app.route("/api/detail/<int:id>", methods=['GET'])
 def read(id) :
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
     datas=list(db.weling.find({}))
+    comments=list(db.comments.find({'content_id':str(id)}))
     end=len(datas)
     print(id)
     print(list(db.weling.find({'id':id})))
@@ -116,12 +119,12 @@ def read(id) :
         next_index = 0
     next_data_id= datas[next_index]['id']
     prev_data_id=datas[prev_index]['id']
-    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id)
+    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id, comments=comments, id=payload['id'])
 
 
 @app.route("/api/update/<int:id>", methods=['GET'])
 def update(id):
-    data = list(db.weling.find({'id' : id}))[0]
+    data = list(db.weling.find({'id': id}))[0]
     return render_template("update.html",data=data)
 
 
@@ -170,7 +173,6 @@ def delete():
     id_receive = request.form['id_give']
     db.weling.delete_one({'id' : int(id_receive)})
     return jsonify({'result': 'success', 'msg': '삭제 완료'})
-    # return render_template("main.html")
 
 
 @app.route('/api/comment-save', methods=['POST'])
@@ -185,6 +187,7 @@ def comment_save():
         doc = {
             "content_id": content_id,
             "username" : user_info["username"],
+            "userprofile": user_info["profile_pic_real"],
             "comment" : comment_receive,
             "date" : date_receive
         }
@@ -199,7 +202,6 @@ def temp_token():
     id_receive = request.form['id_give']
     pw_receive = request.form['pw_give']
     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    print(pw_hash)
     payload = {
         'id' : id_receive,
         'exp' : datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
@@ -207,6 +209,14 @@ def temp_token():
     token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
     return jsonify({'result' : 'success', 'token' : token})
+
+
+@app.route('/api/comment-remove', methods=['DELETE'])
+def comment_delete():
+    username=request.form['username_give']
+    date=request.form['date_give']
+    db.comments.delete_one({'username':username, 'date':date})
+    return jsonify({'result': 'success', 'msg': '삭제 완료'})
 
 
 if __name__ == '__main__' :
