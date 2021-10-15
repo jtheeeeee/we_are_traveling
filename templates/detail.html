@@ -18,8 +18,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
     <title>위링, We're Traveling</title>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
@@ -361,24 +360,21 @@
             font-size: 10px;
             margin-right: 20px;
         }
-
-        .comment-delete {
-        {#background-color: transparent;#} border: none;
+        .comment-delete{
+            background-color: transparent;
+            border: none;
         }
 
-        .comment-update {
-        {#background-color: transparent;#} border: none;
-        }
     </style>
     <script>
 
 
         $(document).ready(function () {
-            temp_token('id6', 'pwpw6');
+            temp_token('id2', 'pwpw2');
         })
 
 
-        function temp_token(id, pw) {
+        function temp_token(id, pw){
             $.ajax({
                 type: 'POST',
                 url: '/api/temp-token',
@@ -412,97 +408,6 @@
             });
         }
 
-        function update_comment(username, date, i) {
-            let new_comment = $(`#comment-textarea-${i}`).val()
-            $.ajax({
-                type: 'POST',
-                url: '/api/comment-update',
-                data: {username_give: username, date_give: date, new_comment: new_comment, content_id: {{data.id}}},
-                success: function (response) {
-                    let comments = response['result']
-                    $('.tab_container').empty();
-                    $('.tab_container').append(`
-                    <input id="tab1" type="radio" name="tabs" >
-                    <label for="tab1"><i class="fa fa-code"></i><span>Content</span></label>
-
-                    <input id="tab2" type="radio" name="tabs" checked>
-                    <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>Comment</span></label>
-                    <section id="content1" class="tab-content">
-                    <p>{{ data.content }}</p>
-                    </section>
-                    <section id="content2" class="tab-content"><div class="comment_wrap" style="height: 68%;  overflow:auto; "></section>
-                    `)
-                    for (let i = 0; i < comments.length; i++) {
-                        let button_html = ''
-                        if ('{{id}}' === comments[i]['username']) {
-                            button_html = `
-                                            <button class="comment-update"
-                                                    onclick="update_textarea('${comments[i]['username']}','${comments[i]['date']}','${i}')">
-                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
-                                            </button>
-                                            <button class="comment-delete"
-                                                    onclick="delete_comment('${comments[i]['username']}','${comments[i]['date']}')">
-                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
-                                            </button>`;
-
-                        }
-                        let temp_html = `
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="/static/${comments[i]['userprofile']}">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content" id="comment-content">
-                                    <p>
-                                        <strong>${comments[i]['username']}</strong>`
-                        let temp_html2 = `<br >
-                                        <div class="comment-content-${i}">
-                                        ${comments[i]['comment']}
-
-                                        </div>
-                                        <br>
-                                        <div class="update-comment-${i} is-hidden">
-                                           <textarea id="comment-textarea-${i}" class="textarea"
-                                              >${comments[i]['comment']}</textarea>
-                                            <button onclick="update_comment('${comments[i]['username']}','${comments[i]['date']}','${i}')">update</button>
-                                        </div>
-                                        <small>3 hrs</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                        `
-                        $('.comment_wrap').append(temp_html + button_html + temp_html2)
-                    }
-                    $('#content2').append(`<div style="height: 32%; font-size: 5px; margin-right: 20px;">
-                    <article class="media">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="field">
-                                <p class="control">
-                                    <textarea id="comment-textarea" class="textarea"
-                                              placeholder="Add a comment..."></textarea>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <button class="button" onclick="comment_post()">Post comment</button>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div>`)
-                    alert(response['msg'])
-                }
-            });
-        }
-
         function comment_post() {
             let comment = $("#comment-textarea").val()
             let today = new Date().toISOString()
@@ -515,86 +420,8 @@
                     content_id:{{ data.id }}
                 },
                 success: function (response) {
-                    let comments = response['result']
-                    $('.tab_container').empty();
-                    $('.tab_container').append(`
-                    <input id="tab1" type="radio" name="tabs" >
-                    <label for="tab1"><i class="fa fa-code"></i><span>Content</span></label>
-
-                    <input id="tab2" type="radio" name="tabs" checked>
-                    <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>Comment</span></label>
-                    <section id="content1" class="tab-content">
-                    <p>{{ data.content }}</p>
-                    </section>
-                    <section id="content2" class="tab-content"><div class="comment_wrap" style="height: 68%;  overflow:auto; "></section>
-                    `)
-                    for (let i = 0; i < comments.length; i++) {
-                        let button_html = ''
-                        if ('{{id}}' === comments[i]['username']) {
-                            button_html = `
-                                            <button class="comment-update"
-                                                    onclick="update_textarea('${comments[i]['username']}','${comments[i]['date']}','${i}')">
-                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
-                                            </button>
-                                            <button class="comment-delete"
-                                                    onclick="delete_comment('${comments[i]['username']}','${comments[i]['date']}')">
-                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
-                                            </button>`;
-
-                        }
-                        let temp_html = `
-                        <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="/static/${comments[i]['userprofile']}">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content" id="comment-content">
-                                    <p>
-                                        <strong>${comments[i]['username']}</strong>`
-                        let temp_html2 = `<br >
-                                        <div class="comment-content-${i}">
-                                        ${comments[i]['comment']}
-
-                                        </div>
-                                        <br>
-                                        <div class="update-comment-${i} is-hidden">
-                                           <textarea id="comment-textarea-${i}" class="textarea"
-                                              >${comments[i]['comment']}</textarea>
-                                            <button onclick="update_comment('${comments[i]['username']}','${comments[i]['date']}','${i}')">update</button>
-                                        </div>
-                                        <small>3 hrs</small>
-                                    </p>
-                                </div>
-                            </div>
-                        </article>
-                        `
-                        $('.comment_wrap').append(temp_html + button_html + temp_html2)
-                    }
-                    $('#content2').append(`<div style="height: 32%; font-size: 5px; margin-right: 20px;">
-                    <article class="media">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="field">
-                                <p class="control">
-                                    <textarea id="comment-textarea" class="textarea"
-                                              placeholder="Add a comment..."></textarea>
-                                </p>
-                            </div>
-                            <div class="field">
-                                <p class="control">
-                                    <button class="button" onclick="comment_post()">Post comment</button>
-                                </p>
-                            </div>
-                        </div>
-                    </article>
-                </div>`)
                     alert(response['msg'])
+                    window.location.reload()
                 }
             })
         }
@@ -604,7 +431,7 @@
             $.ajax({
                 type: 'DELETE',
                 url: '/api/comment-remove',
-                data: {username_give: username, date_give: date},
+                data: {username_give: username, date_give: date },
                 success: function (response) {
                     alert(response["msg"]);
                     window.location.reload()
@@ -612,14 +439,7 @@
             });
         }
 
-        function update_textarea(username, date, i) {
-            $(`.update-comment-${i}`).removeClass("is-hidden")
-            $(`.comment-content-${i}`).addClass("is-hidden")
-        }
-
-
     </script>
-
 </head>
 <body class="body-color">
 
@@ -656,46 +476,27 @@
 
             <section id="content2" class="tab-content">
                 <div class="comment_wrap" style="height: 68%;  overflow:auto; ">
-                    {% for i in range(comments_len) %}
+                    {% for comment in comments %}
                         <article class="media">
-                            <figure class="media-left">
-                                <p class="image is-64x64">
-                                    <img src="{{ url_for('static', filename= comments[i].userprofile) }}">
-                                </p>
-                            </figure>
-                            <div class="media-content">
-                                <div class="content" id="comment-content">
-                                    <p>
-                                        <strong>{{ comments[i].username }}</strong>
-                                        {% if id == comments[i].username %}
-                                            <button class="comment-update"
-                                                    onclick="update_textarea('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
-                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
-                                            </button>
-                                            <button class="comment-delete"
-                                                    onclick="delete_comment('{{ comments[i].username }}','{{ comments[i].date }}')">
-                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
-                                            </button>
-
-                                        {% endif %}
-                                        <br>
-                                    <div class="comment-content-{{ i }}">
-                                        {{ comments[i].comment }}
-
-                                    </div>
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="{{ url_for('static', filename= comment.userprofile) }}">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content" id="comment-content">
+                                <p>
+                                    <strong>{{ comment.username}}</strong>
+                                    {% if id == comment.username %}
+                                        <button class="comment-delete" onclick="delete_comment('{{ comment.username }}','{{ comment.date }}')"><span class="icon is-small"><i class="fa fa-trash-o"></i></span></button>{% endif %}
                                     <br>
-                                    <div class="update-comment-{{ i }} is-hidden">
-                                           <textarea id="comment-textarea-{{ i }}" class="textarea"
-                                           >{{ comments[i].comment }}</textarea>
-                                        <button onclick="update_comment('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
-                                            update
-                                        </button>
-                                    </div>
+                                    {{ comment.comment}}
+                                    <br>
                                     <small>3 hrs</small>
-                                    </p>
-                                </div>
+                                </p>
                             </div>
-                        </article>
+                        </div>
+                    </article>
                     {% endfor %}
                 </div>
                 <div style="height: 32%; font-size: 5px; margin-right: 20px;">
@@ -708,8 +509,7 @@
                         <div class="media-content">
                             <div class="field">
                                 <p class="control">
-                                    <textarea id="comment-textarea" class="textarea"
-                                              placeholder="Add a comment..."></textarea>
+                                    <textarea id="comment-textarea" class="textarea" placeholder="Add a comment..."></textarea>
                                 </p>
                             </div>
                             <div class="field">
