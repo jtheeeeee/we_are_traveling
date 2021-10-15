@@ -1,13 +1,12 @@
-import hashlib
 from pymongo import MongoClient
 from flask import Flask, render_template, jsonify, request, url_for, redirect
-from datetime import datetime, timedelta
+from datetime import datetime
 import math
-import jwt
+
 app = Flask(__name__)
 client = MongoClient('localhost', 27017)
 db = client.dbweling
-SECRET_KEY='WELING'
+
 
 @app.route("/")
 def board_list():
@@ -58,10 +57,10 @@ def board_list():
 
 
 
+
 @app.route('/insert')
 def insert():
     return render_template('insert_form.html')
-
 
 @app.route('/api/insert_form', methods=['POST'])
 def save_insert() :
@@ -103,11 +102,7 @@ def save_insert() :
 
 @app.route("/api/detail/<int:id>", methods=['GET'])
 def read(id) :
-    token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-
     datas=list(db.weling.find({}))
-    comments=list(db.comments.find({'content_id':str(id)}))
     end=len(datas)
     print(id)
     print(list(db.weling.find({'id':id})))
@@ -119,13 +114,13 @@ def read(id) :
         next_index = 0
     next_data_id= datas[next_index]['id']
     prev_data_id=datas[prev_index]['id']
-    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id, comments=comments, id=payload['id'])
-
+    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id)
 
 @app.route("/api/update/<int:id>", methods=['GET'])
 def update(id):
-    data = list(db.weling.find({'id': id}))[0]
+    data = list(db.weling.find({'id' : id}))[0]
     return render_template("update.html",data=data)
+
 
 
 @app.route("/api/update-upload", methods=['POST'])
@@ -171,52 +166,18 @@ def update_upload() :
 @app.route('/api/delete', methods=['DELETE'])
 def delete():
     id_receive = request.form['id_give']
+    print(id_receive)
     db.weling.delete_one({'id' : int(id_receive)})
     return jsonify({'result': 'success', 'msg': '삭제 완료'})
+    # return render_template("main.html")
 
 
 @app.route('/api/comment-save', methods=['POST'])
 def comment_save():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        content_id=request.form['content_id']
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username" : payload["id"]})
-        comment_receive = request.form["comment_give"]
-        date_receive = request.form["date_give"]
-        doc = {
-            "content_id": content_id,
-            "username" : user_info["username"],
-            "userprofile": user_info["profile_pic_real"],
-            "comment" : comment_receive,
-            "date" : date_receive
-        }
-        db.comments.insert_one(doc)
-        return jsonify({"result": "success", 'msg': 'comment 저장 성공'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("read", id=content_id))
-
-
-@app.route('/api/temp-token', methods=['POST'])
-def temp_token():
-    id_receive = request.form['id_give']
-    pw_receive = request.form['pw_give']
-    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-    payload = {
-        'id' : id_receive,
-        'exp' : datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
-    }
-    token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-
-    return jsonify({'result' : 'success', 'token' : token})
-
-
-@app.route('/api/comment-remove', methods=['DELETE'])
-def comment_delete():
-    username=request.form['username_give']
-    date=request.form['date_give']
-    db.comments.delete_one({'username':username, 'date':date})
-    return jsonify({'result': 'success', 'msg': '삭제 완료'})
+    comment_receive = request.form['comment_give']
+    date_receive = request.form['date_give']
+    print(comment_receive)
+    return jsonify({'result' : 'success', 'msg' : comment_receive+date_receive})
 
 
 if __name__ == '__main__' :
