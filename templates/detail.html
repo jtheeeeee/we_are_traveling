@@ -409,6 +409,140 @@
             })
         }
 
+        function update_comment(username, date, i) {
+            let new_comment = $(`#comment-textarea-${i}`).val()
+            $.ajax({
+                type: 'POST',
+                url: '/api/comment-update',
+                data: {username_give: username, date_give: date, new_comment: new_comment, content_id: {{data.id}}},
+                success: function (response) {
+                    let comments = response['result']
+                    make_comment_list(comments.length, comments)
+                    alert(response['msg'])
+                }
+            });
+        }
+
+        function comment_post() {
+            let comment = $("#comment-textarea").val()
+            let today = new Date().toISOString()
+            $.ajax({
+                type: "POST",
+                url: "/api/comment-save",
+                data: {
+                    comment_give: comment,
+                    date_give: today,
+                    content_id:{{ data.id }}
+                },
+                success: function (response) {
+                    let comments = response['result']
+                    make_comment_list(comments.length, comments)
+                    alert(response['msg'])
+                }
+            })
+        }
+
+        function delete_comment(username, date) {
+            console.log(username)
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/comment-remove',
+                data: {username_give: username, date_give: date, content_id: {{data.id}}},
+                success: function (response) {
+                    let comments = response['result']
+                    make_comment_list(comments.length, comments)
+                    alert(response["msg"]);
+
+                }
+            });
+        }
+
+        function update_textarea(i) {
+            $(`.update-comment-${i}`).removeClass("is-hidden")
+            $(`.comment-content-${i}`).addClass("is-hidden")
+        }
+
+        function make_comment_list(comment_len, comments) {
+            $('.tab_container').empty();
+            $('.tab_container').append(`
+                    <input id="tab1" type="radio" name="tabs" >
+                    <label for="tab1"><i class="fa fa-code"></i><span>Content</span></label>
+
+                    <input id="tab2" type="radio" name="tabs" checked>
+                    <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>Comment</span></label>
+                    <section id="content1" class="tab-content">
+                    <p>{{ data.content }}</p>
+                    </section>
+                    <section id="content2" class="tab-content"><div class="comment_wrap" style="height: 68%;  overflow:auto; "></section>
+                    `)
+            for (let i = 0; i < comment_len; i++) {
+                let button_html = ''
+                if ('{{id}}' === comments[i]['username']) {
+                    button_html = `
+                                            <button class="comment-update"
+                                                    onclick="update_textarea('${i}')">
+                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
+                                            </button>
+                                            <button class="comment-delete"
+                                                    onclick="delete_comment('${comments[i]['username']}','${comments[i]['date']}')">
+                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
+                                            </button>`;
+
+                }
+                let temp_html = `
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src="/static/${comments[i]['userprofile']}">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content" id="comment-content">
+                                    <p>
+                                        <strong>${comments[i]['username']}</strong>`
+                let temp_html2 = `<br >
+                                        <div class="comment-content-${i}">
+                                        ${comments[i]['comment']}
+
+                                        </div>
+                                        <br>
+                                        <div class="update-comment-${i} is-hidden">
+                                           <textarea id="comment-textarea-${i}" class="textarea"
+                                              >${comments[i]['comment']}</textarea>
+                                            <button onclick="update_comment('${comments[i]['username']}','${comments[i]['date']}','${i}')">update</button>
+                                        </div>
+                                        <small>3 hrs</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                        `
+                $('.comment_wrap').append(temp_html + button_html + temp_html2)
+            }
+            $('#content2').append(`<div style="height: 32%; font-size: 5px; margin-right: 20px;">
+                    <article class="media">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="field">
+                                <p class="control">
+                                    <textarea id="comment-textarea" class="textarea"
+                                              placeholder="Add a comment..."></textarea>
+                                </p>
+                            </div>
+                            <div class="field">
+                                <p class="control">
+                                    <button class="button" onclick="comment_post()">Post comment</button>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>`)
+        }
+
 
     </script>
 </head>
@@ -447,11 +581,54 @@
 
             <section id="content2" class="tab-content">
 
+                <div class="comment_wrap" style="height: 68%;  overflow:auto; ">
+                    {% for i in range(comments_len) %}
+                        <article class="media">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img src={{ url_for('static', filename='userfile/'+comments[i].userfile) }}>
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content" id="comment-content">
+                                    <p>
+                                        <strong>{{ comments[i].username }}</strong>
+                                        {% if id == comments[i].username %}
+                                            <button class="comment-update"
+                                                    onclick="update_textarea('{{ i }}')">
+                                                <span class="icon is-small"><i class="fa fa-pencil-square-o"></i></span>
+                                            </button>
+                                            <button class="comment-delete"
+                                                    onclick="delete_comment('{{ comments[i].username }}','{{ comments[i].date }}')">
+                                                <span class="icon is-small"><i class="fa fa-trash-o"></i></span>
+                                            </button>
+
+                                        {% endif %}
+                                        <br>
+                                    <div class="comment-content-{{ i }}">
+                                        {{ comments[i].comment }}
+
+                                    </div>
+                                    <br>
+                                    <div class="update-comment-{{ i }} is-hidden">
+                                           <textarea id="comment-textarea-{{ i }}" class="textarea"
+                                           >{{ comments[i].comment }}</textarea>
+                                        <button onclick="update_comment('{{ comments[i].username }}','{{ comments[i].date }}','{{ i }}')">
+                                            update
+                                        </button>
+                                    </div>
+                                    <small>3 hrs</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
                 <div style="height: 32%; font-size: 5px; margin-right: 20px;">
                     <article class="media">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src={{ url_for('static', filename='userfile/'+user_info) }}>
                             </p>
                         </figure>
                         <div class="media-content">
