@@ -15,25 +15,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
-    <!-- 부트스트랩 CDN 로드 : 항상 최신 버전 사용 : maxcdn -->
-    <!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">-->
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 
-<!--    <link rel="stylesheet" href="../scc_teamproject/static/css/main.css"> 로컬 서버 안쓸때-->
 
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- Jquery CDN 로드 : 항상 최신 버전 사용 -->
-    <!--    <script src="https://code.jquery.com/jquery-latest.min.js"></script>-->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
-    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>-->
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
-    <!--    <script src='../scc_teamproject/static/js/main.js'></script> 로컬서버 사용안할때-->
 
     <!-- 구글폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,16 +38,258 @@
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+
+        <script>
+
+        // 로그인 클라이언트
+        function sign_in() {
+            let username = $("#input-username").val()
+            console.log(username)
+            let password = $("#input-password").val()
+
+            if (username == "") {
+                $("#help-id-login").text("아이디를 입력해주세요.")
+                $("#input-username").focus()
+                return;
+            } else {
+                $("#help-id-login").text("")
+            }
+
+            if (password == "") {
+                $("#help-password-login").text("비밀번호를 입력해주세요.")
+                $("#input-password").focus()
+                return;
+            } else {
+                $("#help-password-login").text("")
+            }
+            $.ajax({
+                type: "POST",
+                url: "/sign_in",
+                data: {
+                    username_give: username,
+                    password_give: password
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        $.cookie('mytoken', response['token'], {path: '/'});
+                        window.location.replace("/")
+                    } else {
+                        $("#input-username").val('')
+                        $("#input-password").val('')
+                        alert(response['msg'])
+
+                    }
+                }
+            });
+        }
+
+        // 회원가입 클라이언트
+        function sign_up() {
+
+            let username = $("#input-username2").val()
+            let password = $("#input-password2").val()
+            let password2 = $("#input-password3").val()
+            let usernickname = $("#input-Nickname").val()
+            let userdata = $("#input-date").val()
+            let usergender = $('input[name=userGender]:checked').val();
+
+
+            let bool = 'True'
+            let userfile = $('#input-pic')[0].files[0]
+            if (userfile === undefined) {
+                bool = "False"
+                userfile = 'none'
+            }
+            let form_data = new FormData()
+
+            console.log(username, password, password2, usernickname, userdata, usergender, bool, userfile)
+            form_data.append("bool", bool)
+            form_data.append("userfile_give", userfile)
+            form_data.append("username_give", username)
+            form_data.append("password_give", password)
+            form_data.append("nickname_give", usernickname)
+            form_data.append("userdata_give", userdata)
+            form_data.append("usergender_give", usergender)
+
+
+            if (username == "") {
+                $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-username2").focus()
+                return;
+            }
+            if (!is_nickname(username)) {
+                $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
+                $("#input-username2").focus()
+                return;
+            }
+            $("#help-id").addClass("is-loading")
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/check_dup",
+                data: {
+                    username_give: username
+                },
+                success: function (response) {
+
+                    if (response["exists"]) {
+                        $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
+                        $("#input-username2").focus()
+                    } else {
+                        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
+                    }
+                    $("#help-id").removeClass("is-loading")
+                }
+            });
+
+            if (password == "") {
+                $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-password2").focus()
+                return;
+            } else if (!is_password(password)) {
+                $("#help-password2").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+                $("#input-password2").focus()
+                return
+            } else {
+                $("#help-password2").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
+            }
+            if (password2 == "") {
+                $("#help-password3").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-password3").focus()
+                return;
+            } else if (password2 != password) {
+                $("#help-password3").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
+                $("#input-password3").focus()
+                return;
+            } else {
+                $("#help-password3").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
+            }
+            if (usernickname == "") {
+                $("#help-Nickname").text("닉네임을 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-Nickname").focus()
+                return;
+            } else if (!is_nickname2(usernickname)) {
+                $("#help-Nickname").text("닉네임의 형식을 확인해주세요. 한글, 영문, 숫자만 가능하며 2-10자리 가능").removeClass("is-safe").addClass("is-danger")
+                $("#input-Nickname").focus()
+                return;
+            } else {
+                $("#help-Nickname").text("사용할 수 있는 닉네임입니다.").removeClass("is-danger").addClass("is-success")
+            }
+            if (userdata == "") {
+                $("#help-date").text("생년월일을 입력해주세요..").removeClass("is-safe").addClass("is-danger")
+                $("#input-date").focus()
+                return;
+            } else if (!is_data(userdata)) {
+                $("#help-date").text("생년월일의 형식을 확인해주세요. 숫자 6자 길이 입니다. 예시:971225").removeClass("is-safe").addClass("is-danger")
+                $("#input-date").focus()
+                return;
+            } else {
+                $("#help-date").text("생년월일 입력 확인 되었습니다.").removeClass("is-danger").addClass("is-success")
+            }
+            if (usergender == undefined) {
+                $("#help-userGender").text("성별을 선택해주세요.").removeClass("is-safe").addClass("is-danger")
+                return;
+            } else {
+                $("#help-userGender").text("성별 입력 확인 되었습니다.").removeClass("is-danger").addClass("is-success")
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/save",
+                data: form_data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    alert("회원가입을 축하드립니다!")
+                    window.location.replace("/")
+                }
+            });
+        }
+
+        // 토글 보이기/숨기기
+        function toggle_sign_up() {
+            $("#help-id").toggleClass("is-hidden")
+            $("#help-password").toggleClass("is-hidden")
+            $("#help-password2").toggleClass("is-hidden")
+            $("#help-password3").toggleClass("is-hidden")
+            $("#help-Nickname").toggleClass("is-hidden")
+            $("#help-date").toggleClass("is-hidden")
+            $("#help-userGender").toggleClass("is-hidden")
+
+            $("#login_box").toggleClass("is-hidden")
+            $("#signup_box").toggleClass("is-hidden")
+        }
+
+        //정규식 표현
+        function is_nickname(asValue) {
+            var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_password(asValue) {
+            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_nickname2(asValue) {
+            var regExp = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_data(asValue) {
+            var regExp = /([0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[1,2][0-9]|3[0,1]))/
+            return regExp.test(asValue);
+        }
+
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃!')
+            window.location.href = "/"
+        }
+    </script>
+
 </head>
 <body>
 
 <div id="wrapper">
-    <header id="header">
-        <!--제목과 메뉴-->
-        <a href="#"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span class="subtitle">we're traveling</span></h1></a>
-<!--        "../logo.png" 로컬서버 안쓸때-->
-        <button class="writing" onClick="location.href='insert'">작성하기</button>
+    {#    <header id="header">#}
+    {#        <!--제목과 메뉴-->#}
+    {#        <a href="#"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span class="subtitle">we're traveling</span></h1></a>#}
+    {#<!--        "../logo.png" 로컬서버 안쓸때-->#}
+    {#        <button class="writing" onClick="location.href='insert'">작성하기</button>#}
+    {#    </header>#}
+
+
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <a href="#"><h1><img style="flex-shrink:0; width: 40px; height: 40px;" src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">
+                    위링 <span class="subtitle">we're traveling</span></h1></a>
+                {% if user_info %}
+                    <button class="login_out"  onclick="sign_out()">로그아웃</button>
+                    <button class="writing" onClick="location.href='insert'">작성하기</button>
+
+                {% else %}
+                    <p>
+                        <button class="login" onclick='$("#modal-post").addClass("is-active")'>로그인</button>
+                    </p>
+                {% endif %}
+                {% if user_info %}
+                    <div style="position:relative; right:18%; background-color: #08AEEA;
+                            background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%); width: 150px; height: 40px; border-radius: 20px;">
+                        <img style="flex-shrink:0; left: 10%; width: 40px; height: 40px; border-radius: 50%;"
+                             src=../static/userfile/{{ user_info.userfile }} alt=""/>
+                    </div>
+                    <p style="position:absolute; right:26%; top: 31%;">{{ user_info.usernickname }}</p>
+                {% endif %}
+
+            </a>
+        </div>
+    </nav>
+
     </header>
+
 
     <main id="main">
         <!--메인비주얼-->
@@ -67,49 +305,49 @@
         <section id="filter">
             <div class="simple-filter">
                 <!--이미지 리스트 출력-->
-                <ul id = 'imglist'>
+                <ul id='imglist'>
                     <!-- 게시물 순서대로 번호 부여하기 -->
                     {% for data in datas %}
-                    <li>
-                        <figure class="snip">
-                            <a href="javascript:void(0);" onclick="update();">
-                                <figcaption>
-                                    <p>{{data.title}}</p>
-                                </figcaption>
-                                <a href = '/api/detail/{{ data.id}}' >
-                                <img src= /static/{{data.file}}
-                                     alt="여행장소"/></a>
-                            </a>
-                        </figure>
-                    </li>
+                        <li>
+                            <figure class="snip">
+                                <a href="javascript:void(0);" onclick="update();">
+                                    <figcaption>
+                                        <p>{{ data.title }}</p>
+                                    </figcaption>
+                                    <a href='/api/detail/{{ data.id }}'>
+                                        <img src=/static/{{ data.file }}
+ alt="여행장소"/></a>
+                                </a>
+                            </figure>
+                        </li>
                     {% endfor %}
 
                 </ul>
 
                 <!-- 페이지네이션을 위한 코드 시작 -->
                 <div class="page">
-{% if block_start - 1 > 0 %}
-    <a  href="{{url_for('board_list', page=block_start - 1)}}" >[이전]</a>
-{% endif %}
+                    {% if block_start - 1 > 0 %}
+                        <a href="{{ url_for('board_list', page=block_start - 1) }}">[이전]</a>
+                    {% endif %}
 
-{% for i in range(block_start, block_end + 1)%}
-    <!-- 데이터가 존재하지 않는 페이지는 화면에 나타내지 않기 위한 조건문 -->
-    {% if i > last_page_num %}
+                    {% for i in range(block_start, block_end + 1) %}
+                        <!-- 데이터가 존재하지 않는 페이지는 화면에 나타내지 않기 위한 조건문 -->
+                        {% if i > last_page_num %}
 
-    {% else %}
-        {% if i == page %}
-            <b>{{ i }}</b>
-        {% else %}
-            <a  href="{{url_for('board_list', page=i)}}">{{ i }}</a>
-        {% endif %}
-    {% endif %}
-{% endfor %}
+                        {% else %}
+                            {% if i == page %}
+                                <b>{{ i }}</b>
+                            {% else %}
+                                <a href="{{ url_for('board_list', page=i) }}">{{ i }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
 
-{% if block_end < last_page_num %}
-    <a  href="{{url_for('board_list', page=block_end + 1)}}"  >[다음]</a>
+                    {% if block_end < last_page_num %}
+                        <a href="{{ url_for('board_list', page=block_end + 1) }}">[다음]</a>
 
-{% endif %}
-<!-- 페이지네이션을 위한 코드 끝 -->
+                    {% endif %}
+                    <!-- 페이지네이션을 위한 코드 끝 -->
                 </div>
 
             </div>
@@ -117,10 +355,116 @@
         </section>
 
     </main>
+    <div class="modal modal_all" id="modal-post">
+
+        <div onclick='$("#modal-post").removeClass("is-active")'></div>
+
+        <form action='index.html' id="login_box" >
+            <div class="Login_Form">
+                <h1>LOGIN</h1>
+                <div class='txtb'><input id="input-username" type="text" placeholder='ID'></div>
+                <p style="text-align: center" id="help-id-login" class="help is-danger">&nbsp;</p>
+
+                <div class="txtb"><input id="input-password" type="password" placeholder='PW'></div>
+                <p style="text-align: center; margin-bottom: 20px;" id="help-password-login" class="help is-danger">
+                    &nbsp;</p>
+
+                <button type="button" class='loginbt' onclick="sign_in()">
+
+                    LOG IN
+                </button>
+                <div class="bottom-text"> Don't you have ID? <a href="javascript:void(0);" onclick="toggle_sign_up();">sign
+                    up</a>
+                </div>
+            </div>
+        </form>
+
+        <form action='index.html' class="is-hidden" id="signup_box">
+            <div class="signup_form">
+                <h1>SIGN UP</h1>
+                <div style="margin-left: 35%;">
+                    <figure class="media-left" style="align-self: center;">
+                        <div class="image is-96x96">
+                            <img id="profile_image" class="is-rounded" src="../static/userfile/profile_placeholder.png">
+                        </div>
+                    </figure>
+                    <div class="file-label " style="width: 15%; margin-left: 40%; margin-top: -10%; ">
+                        <input id="input-pic" class="file-input " type="file" name="resume">
+                        <i style="color:hotpink;" class="fa fa-plus-circle fa-2x " aria-hidden="true"></i>
+                    </div>
+                </div>
+                <div class='txtb'>
+                    <input id="input-username2" type="text" placeholder='ID'>
+                </div>
+                <p id="help-id" class="help is-hidden">&nbsp;</p>
+                <div class="txtb">
+                    <input id="input-password2" type="password" placeholder='PW'>
+                </div>
+                <p id="help-password2" class="help is-hidden">&nbsp;</p>
+                <div class="txtb">
+                    <input id="input-password3" type="password" placeholder='Re-enter password'>
+                </div>
+                <p id="help-password3" class="help is-hidden ">&nbsp;</p>
+
+                <div class='txtb'>
+                    <input id="input-Nickname" type="text" placeholder='Nickname'>
+                </div>
+                <p id="help-Nickname" class="help is-hidden">&nbsp;</p>
+
+                <div class='txtb'>
+                    <input id="input-date" type="text" placeholder='Date of Birth ex)971225'>
+                </div>
+                <p id="help-date" class="help is-hidden">&nbsp;</p>
+
+                <div class="btn-group" data-toggle="buttons" style="margin-left: 50px;">
+                    <label class="btn btn-primary" style="width: 100px;">
+                        <input type="radio" name="userGender" autocomplete="off" value="Man">Man
+                    </label>
+                    <label class="btn btn-primary" style="width: 100px; margin-left: 20px">
+                        <input type="radio" name="userGender" autocomplete="off" value="Woman">Woman
+                    </label>
+                </div>
+                <p id="help-userGender" class="help is-hidden">&nbsp;</p>
+                <button type="button" class='signup_btn' onclick="sign_up()">
+                    SIGN UP
+                </button>
+                <div class="bottom-text"><a href="javascript:void(0);" onclick="toggle_sign_up();">Go To Login</a>
+                </div>
+            </div>
+        </form>
 
 
+        {#    오른쪽 위 x 닫기 표시#}
+        <button class="modal-close is-large" aria-label="close"
+                onclick='$("#modal-post").removeClass("is-active")'></button>
+    </div>
+
+</div>
 
 </div>
 
 </body>
+<script>
+    function profileImage(input) {
+        // 인풋 태그에 파일이 있는 경우
+        if (input.files && input.files[0]) {
+            // 이미지 파일인지 검사 (생략)
+            // FileReader 인스턴스 생성
+            const reader = new FileReader()
+            // 이미지가 로드가 된 경우
+            reader.onload = e => {
+                const previewImage = document.getElementById("profile_image")
+                previewImage.src = e.target.result
+            }
+            // reader가 이미지 읽도록 하기
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    // input file에 change 이벤트 부여
+    const inputImage = document.getElementById("input-pic")
+    inputImage.addEventListener("change", e => {
+        profileImage(e.target)
+    })
+</script>
 </html>

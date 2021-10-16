@@ -4,11 +4,13 @@ body {font-family: 'Noto Sans KR', sans-serif; display:flex;align-content:center
 #wrapper {width: 100%; overflow: hidden;}
 
 /*상단 로고 및 이름*/
-#header {position:fixed; left: 0px; top: 0px; width: 100%; padding: 50px 0; background-color: transparent; z-index: 4;}
+#header {position:absolute; left: 0px; top: 0px; width: 100%; padding: 50px 0; background-color: transparent; z-index: 4; background-color: #FFFFFF}
 #header h1 {position: absolute; left: 60%; top: 50%; transform: translate(-50%, -50%); text-align: center; color: white;}
 #header img {position:absolute; right: 85%; top: 50%; transform: translate(-50%, -50%); width: 70px; height: 50px;}
 .subtitle {font-size: small;}
-.writing{position:absolute; color:white; left:90%; border-radius:15px; border:1px solid white; background:0 0;  cursor:pointer;font-size: 1.2rem; }
+.writing{position:absolute; color:black; left:90%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
+.login{position:absolute; color:black; left:90%; top:30%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
+.login_out{position:absolute; color:black; left:81%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
 
 /*!*중간 큰 이미지 및 글자*!*/
 #visual {position: relative; width: 100%; height:400px; text-align: center; overflow: hidden; }
@@ -34,6 +36,21 @@ body {font-family: 'Noto Sans KR', sans-serif; display:flex;align-content:center
 
 
 
+.modal_all {margin: 0px;padding: 0px;text-decoration: none;font-family: sans-serif;width: 100%;height: 100%;background-color: #08AEEA;background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);}
+.Login_Form {width: 400px;background-color: #FFFFFF;height: 500px;padding: 80px 40px;border-radius: 10px;position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%)}
+.Login_Form h1 {text-align: center;margin-bottom: 60px;color: #08AEEA}
+.loginbt {position: relative;left: 50%;transform: translateX(-50%);margin-bottom: 40px;width: 100%;height: 50px;background: linear-gradient(125deg, #81ecec, #6c5ce7, #81ecec);background-position: left;
+            border-radius: 10px;background-size: 200%;color: white;font-weight: bold;border: none;cursor: pointer;transition: 0.4s;display: inline;}
+.loginbt:hover {background-position: right;}
+.signup_form {width: 400px;background-color: #FFFFFF;height: 800px;padding: 40px 40px;border-radius: 10px;position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%)}
+.signup_form h1 {text-align: center;margin-bottom: 20px;color: #08AEEA}
+.txtb {border-bottom: 2px solid #adadad;margin: 5px;}
+.txtb input {font-size: 15px;color: #333;width: 100%;border: none;padding: 0 5px;height: 40px;outline: none;}
+.signup_btn {position: relative;left: 50%;transform: translateX(-50%);margin-bottom: 30px;width: 100%;height: 50px;background: linear-gradient(125deg, #81ecec, #6c5ce7, #81ecec);background-position: left;
+            border-radius: 10px;background-size: 200%;color: white;font-weight: bold;border: none;cursor: pointer;transition: 0.4s;display: inline;}
+.signup_btn:hover {background-position: right;}
+.bottom-text {margin-top: 0px;text-align: center;}
+.bottom-text a {color: #08AEEA;}
 
 
 
