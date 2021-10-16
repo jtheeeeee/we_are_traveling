@@ -78,8 +78,53 @@ def board_list():
 # 메인화면 이동
 @app.route('/main')
 def main():
+    # board = mongo.db.board
+    # board = db
+    # 페이지 값 (디폴트값 = 1)
+    page = request.args.get("page", 1, type=int)
+    # 한 페이지 당 몇 개의 게시물을 출력할 것인가
+    limit = 8
+
+    # datas = db.weling.find({}).skip((page - 1) * limit).limit(limit)  # board컬럭션에 있는 모든 데이터를 가져옴
+    datas = list(db.weling.find({}).skip((page - 1) * limit).limit(limit)) # board컬럭션에 있는 모든 데이터를 가져옴
+
+
+    # same_ages = list(db.weling.find({}, {'_id': False}))
+    # user = db.users.find_one({'name': 'bobby'})
+
+    # print(datas)
+
+    # 게시물의 총 개수 세기
+    # tot_count = board.find({}).count()
+    tot_count = db.weling.count()
+    # print(tot_count)
+
+
+    # 마지막 페이지의 수 구하기
+    last_page_num = math.ceil(tot_count / limit) # 반드시 올림을 해줘야함
+    # print(last_page_num)
+
+    #
+    # 페이지 블럭을 5개씩 표기
+    block_size = 5
+    # 현재 블럭의 위치 (첫 번째 블럭이라면, block_num = 0)
+    block_num = int((page - 1) / block_size)
+    # 현재 블럭의 맨 처음 페이지 넘버 (첫 번째 블럭이라면, block_start = 1, 두 번째 블럭이라면, block_start = 6)
+    block_start = (block_size * block_num) + 1
+    # 현재 블럭의 맨 끝 페이지 넘버 (첫 번째 블럭이라면, block_end = 5)
+    block_end = block_start + (block_size - 1)
+
+    # print(datas)
+    # print(limit)
+    # print(page)
+    # print(block_start)
+    # print(block_end)
+    # print(last_page_num)
+
+
     msg = request.args.get("msg")
-    return render_template('main.html', msg=msg)
+    return render_template('main.html', msg=msg,datas=datas, limit=limit, page=page, block_start=block_start,
+                               block_end=block_end, last_page_num=last_page_num)
 
 # 회원가입후 로그인창으로 이동
 @app.route('/login')
