@@ -39,8 +39,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
-        <script>
-
+    <script>
+        {% if msg %}
+            alert("{{ msg }}")
+        {% endif %}
         // 로그인 클라이언트
         function sign_in() {
             let username = $("#input-username").val()
@@ -264,10 +266,11 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <a href="#"><h1><img style="flex-shrink:0; width: 40px; height: 40px;" src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">
+                <a href="#"><h1><img style="flex-shrink:0; width: 40px; height: 40px;"
+                                     src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">
                     위링 <span class="subtitle">we're traveling</span></h1></a>
                 {% if user_info %}
-                    <button class="login_out"  onclick="sign_out()">로그아웃</button>
+                    <button class="login_out" onclick="sign_out()">로그아웃</button>
                     <button class="writing" onClick="location.href='insert'">작성하기</button>
 
                 {% else %}
@@ -359,7 +362,7 @@
 
         <div onclick='$("#modal-post").removeClass("is-active")'></div>
 
-        <form action='index.html' id="login_box" >
+        <form action='index.html' id="login_box">
             <div class="Login_Form">
                 <h1>LOGIN</h1>
                 <div class='txtb'><input id="input-username" type="text" placeholder='ID'></div>
