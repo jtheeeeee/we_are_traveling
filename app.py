@@ -1,9 +1,18 @@
 from pymongo import MongoClient
-from flask import Flask, render_template, jsonify, request, url_for, redirect
-from datetime import datetime
+import jwt
+import datetime
+import hashlib
+from flask import Flask, render_template, jsonify, request, redirect, url_for
+from werkzeug.utils import secure_filename
+from datetime import datetime, timedelta
 import math
 
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
+
+SECRET_KEY = 'WELING'
+
 client = MongoClient('localhost', 27017)
 db = client.dbweling
 
@@ -53,7 +62,109 @@ def board_list():
     # print(block_end)
     # print(last_page_num)
 
-    return render_template("main.html", datas=datas, limit=limit, page=page, block_start=block_start, block_end=block_end, last_page_num=last_page_num)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        print(user_info)
+        return render_template("main.html", datas=datas, limit=limit, page=page, block_start=block_start,
+                               block_end=block_end, last_page_num=last_page_num, user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("main", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
+
+
+# 메인화면 이동
+@app.route('/main')
+def main():
+    msg = request.args.get("msg")
+    return render_template('main.html', msg=msg)
+
+# 회원가입후 로그인창으로 이동
+@app.route('/login')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
+
+
+
+# 로그인 서버
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    # 로그인
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+
+    if result is not None:
+        payload = {
+         'id': username_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
+# 회원가입 서버
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    bool = request.form['bool']
+    username = request.form['username_give']
+    password = request.form['password_give']
+    usernickname = request.form['nickname_give']
+    userdata = request.form['userdata_give']
+    usergender = request.form['usergender_give']
+
+    print(username, password, usernickname, userdata, usergender)
+
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+
+    doc = {
+        'username': username,  # 아이디
+        'password': password_hash,  # 비밀번호
+        'usernickname': usernickname,  # 프로필 닉네임
+        'userdata': userdata,  # 생년월일
+        'usergender': usergender  # 성별
+    }
+
+    if bool == 'True':
+        userfile = request.files['userfile_give']
+        extention = userfile.filename.split('.')[-1]
+        today = datetime.now()
+        mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+        filename = f'userfile-{mytime}'
+        save_to = f'static/userfile/{filename}.{extention}'
+        userfile.save(save_to)
+        doc.update({'userfile': f'{filename}.{extention}'})
+    elif bool == 'False':
+        filename = "profile_placeholder.png"
+        doc.update({'userfile': filename})
+
+    db.users.insert_one(doc)
+    return jsonify({'result': 'success'})
+
+
+
+# 아이디 중복확인 서버
+@app.route('/sign_up/check_dup', methods=['POST'])
+def check_dup():
+    username_receive = request.form['username_give']
+    exists = bool(db.users.find_one({"username": username_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
+
+
+
+
+
+
+
+
 
 
 
