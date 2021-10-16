@@ -293,7 +293,7 @@
             background: #f0f0f0;
         }
 
-       #tab1:checked ~ #content1 {
+        #tab1:checked ~ #content1 {
             display: block;
             padding: 20px;
             background: #fff;
@@ -581,7 +581,7 @@
             })
         }
 
-        function toggle_like(id, content_id){
+        function toggle_like(id, content_id) {
             let $a_like = $(`${id} a[aria-label='heart']`)
             let $i_like = $a_like.find("i")
             if ($i_like.hasClass("fa-heart")) {
@@ -619,8 +619,17 @@
 
         }
 
+        function get_away() {
+            if ({{ userinfo }} == null
+        )
+            {
+                alert('로그인 해주세요')
+                window.location.reload();
+            }
+        }
+
         $(document).ready(function () {
-            get_likes()
+
         })
 
     </script>
