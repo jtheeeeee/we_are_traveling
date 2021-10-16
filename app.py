@@ -258,6 +258,10 @@ def save_insert() :
 
 @app.route("/api/detail/<int:id>", methods=['GET'])
 def read(id) :
+    token_receive = request.cookies.get('mytoken')
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+    comments = list(db.comments.find({'content_id' : str(id)}))
+    user_info = db.users.find_one({"username" : payload["id"]})['userfile']
     datas=list(db.weling.find({}))
     end=len(datas)
     print(id)
@@ -270,7 +274,7 @@ def read(id) :
         next_index = 0
     next_data_id= datas[next_index]['id']
     prev_data_id=datas[prev_index]['id']
-    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id)
+    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id,comments=comments, id=payload['id'], comments_len=len(comments),user_info=user_info)
 
 @app.route("/api/update/<int:id>", methods=['GET'])
 def update(id):
@@ -330,10 +334,53 @@ def delete():
 
 @app.route('/api/comment-save', methods=['POST'])
 def comment_save():
-    comment_receive = request.form['comment_give']
-    date_receive = request.form['date_give']
-    print(comment_receive)
-    return jsonify({'result' : 'success', 'msg' : comment_receive+date_receive})
+    token_receive = request.cookies.get('mytoken')
+    try:
+        content_id=request.form['content_id']
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username" : payload["id"]})
+        comment_receive = request.form["comment_give"]
+        date_receive = request.form["date_give"]
+        doc = {
+            "content_id": content_id,
+            "username" : user_info["username"],
+            "userfile": user_info["userfile"],
+            "comment" : comment_receive,
+            "date" : date_receive
+        }
+        db.comments.insert_one(doc)
+        result= list(db.comments.find({'content_id':content_id},{'_id':False}))
+        print(result)
+        return jsonify({"result": result, 'msg': 'comment 저장 성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("read", id=content_id))
+
+
+
+@app.route('/api/comment-remove', methods=['DELETE'])
+def comment_delete():
+    content_id = request.form['content_id']
+    username=request.form['username_give']
+    date=request.form['date_give']
+    db.comments.delete_one({'username':username, 'date':date})
+    result = list(db.comments.find({'content_id' : content_id}, {'_id' : False}))
+    return jsonify({'result' : result, 'msg' : '삭제 완료'})
+
+
+@app.route("/api/comment-update", methods=['POST'])
+def comment_update() :
+    print('도착!')
+    content_id=request.form['content_id']
+    username = request.form['username_give']
+    date = request.form['date_give']
+    new_comment=request.form['new_comment']
+    doc = {
+        'comment':new_comment
+    }
+    print(doc)
+    db.comments.update_one({'username' : username,'date':date}, {'$set' : doc})
+    result = list(db.comments.find({'content_id' : content_id}, {'_id' : False}))
+    return jsonify({'result' : result, 'msg' : '수정 완료'})
 
 
 if __name__ == '__main__' :
