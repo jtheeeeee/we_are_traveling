@@ -383,5 +383,44 @@ def comment_update() :
     return jsonify({'result' : result, 'msg' : '수정 완료'})
 
 
+@app.route("/get_posts", methods=['POST'])
+def get_likes():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+        content_id=request.form['content_id']
+        print(content_id)
+        count_heart = db.likes.count_documents({"id" :content_id})
+        heart_by_me= bool(db.likes.find_one({"id" : content_id, "username" : payload['id']}))
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.","count_heart":count_heart, "heart_by_me":heart_by_me})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("main"))
+
+
+
+@app.route('/update_like', methods=['POST'])
+def update_like():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username" : payload["id"]})
+
+        post_id_receive = request.form["post_id_give"]
+        action_receive = request.form["action_give"]
+        doc = {
+            "id" : post_id_receive,
+            "username" : user_info["username"],
+        }
+        if action_receive == "like" :
+            db.likes.insert_one(doc)
+        else :
+            db.likes.delete_one(doc)
+        count = db.likes.count_documents({"post_id" : post_id_receive})
+        return jsonify({"result" : "success", 'msg' : 'updated', "count" : count})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("main"))
+
+
 if __name__ == '__main__' :
     app.run('0.0.0.0', port=5000, debug=True)
