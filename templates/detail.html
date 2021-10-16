@@ -293,7 +293,15 @@
             background: #f0f0f0;
         }
 
-        #tab1:checked ~ #content1,
+        #tab1:checked ~ #content1 {
+            display: block;
+            padding: 20px;
+            background: #fff;
+            height: 70%;
+            color: #999;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
         #tab2:checked ~ #content2 {
             display: block;
             padding: 20px;
@@ -543,6 +551,86 @@
                 </div>`)
         }
 
+        function get_likes() {
+            $("#like_bookmark").empty()
+            $.ajax({
+                type: "POST",
+                url: "/get_posts",
+                data: {content_id:{{data.id}}},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let class_heart = response['heart_by_me'] ? "fa-heart" : "fa-heart-o"
+                        let count_heart = response['count_heart']
+                        let html_temp = `
+                                                <nav class="level is-mobile">
+                                                    <div class="level-left">
+                                                        <a class="level-item is-sparta" aria-label="heart" onclick="toggle_like('','{{ data.id }}')">
+                                                            <span class="icon is-small"><i class="fa ${class_heart}"
+                                                                                           aria-hidden="true"></i></span>&nbsp;<span class="like-num">${count_heart}</span>
+                                                        </a>
+                                                    </div>
+
+                                                </nav>
+                                            </div>
+                                        </article>
+                                    </div>`;
+                        $("#like_bookmark").append(html_temp)
+
+                    }
+                }
+            })
+        }
+
+        function toggle_like(id, content_id) {
+            let $a_like = $(`${id} a[aria-label='heart']`)
+            let $i_like = $a_like.find("i")
+            if ($i_like.hasClass("fa-heart")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/update_like",
+                    data: {
+                        post_id_give: content_id,
+                        action_give: "unlike"
+                    },
+                    success: function (response) {
+                        console.log("unlike")
+                        $i_like.addClass("fa-heart-o").removeClass("fa-heart")
+                        $a_like.find("span.like-num").text(response["count"]) //좋아요 숫자 카운트
+                        window.location.reload();
+                    }
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/update_like",
+                    data: {
+                        post_id_give: content_id,
+                        action_give: "like"
+                    },
+                    success: function (response) {
+                        console.log("like")
+                        $i_like.addClass("fa-heart").removeClass("fa-heart-o")
+                        $a_like.find("span.like-num").text(response["count"])
+                        window.location.reload();
+                    }
+                })
+
+            }
+
+        }
+
+        function get_away() {
+            if ({{ userinfo }} == null
+        )
+            {
+                alert('로그인 해주세요')
+                window.location.reload();
+            }
+        }
+
+        $(document).ready(function () {
+
+        })
 
     </script>
 </head>
@@ -574,8 +662,16 @@
             <label for="tab2"><i class="fa fa-pencil-square-o"></i><span>Comment</span></label>
 
             <section id="content1" class="tab-content">
-                <p>{{ data.content }}</p>
+                <p style="white-space: pre-line;">{{ data.content }}</p>
 
+                <nav class="level is-mobile" style="margin-top: 70%" id="like_bookmark">
+                    <div class="level-left">
+                        <a class="level-item is-sparta " aria-label="heart" onclick="toggle_like('',{{ data.id }})">
+                            <span><i class="fa fa-2x fa-heart" aria-hidden="true"></i></span>&nbsp;
+                            <span class="like-num">2.7k</span>
+                        </a>
+                    </div>
+                </nav>
             </section>
 
 

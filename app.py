@@ -18,7 +18,7 @@ db = client.dbweling
 
 
 @app.route("/")
-def board_list():
+def board_list() :
     # board = mongo.db.board
     # board = db
     # 페이지 값 (디폴트값 = 1)
@@ -27,8 +27,7 @@ def board_list():
     limit = 8
 
     # datas = db.weling.find({}).skip((page - 1) * limit).limit(limit)  # board컬럭션에 있는 모든 데이터를 가져옴
-    datas = list(db.weling.find({}).skip((page - 1) * limit).limit(limit)) # board컬럭션에 있는 모든 데이터를 가져옴
-
+    datas = list(db.weling.find({}).skip((page - 1) * limit).limit(limit))  # board컬럭션에 있는 모든 데이터를 가져옴
 
     # same_ages = list(db.weling.find({}, {'_id': False}))
     # user = db.users.find_one({'name': 'bobby'})
@@ -40,9 +39,8 @@ def board_list():
     tot_count = db.weling.count()
     # print(tot_count)
 
-
     # 마지막 페이지의 수 구하기
-    last_page_num = math.ceil(tot_count / limit) # 반드시 올림을 해줘야함
+    last_page_num = math.ceil(tot_count / limit)  # 반드시 올림을 해줘야함
     # print(last_page_num)
 
     #
@@ -63,21 +61,21 @@ def board_list():
     # print(last_page_num)
 
     token_receive = request.cookies.get('mytoken')
-    try:
+    try :
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username": payload["id"]})
+        user_info = db.users.find_one({"username" : payload["id"]})
         print(user_info)
         return render_template("main.html", datas=datas, limit=limit, page=page, block_start=block_start,
                                block_end=block_end, last_page_num=last_page_num, user_info=user_info)
-    except jwt.ExpiredSignatureError:
+    except jwt.ExpiredSignatureError :
         return redirect(url_for("main", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
+    except jwt.exceptions.DecodeError :
+        return redirect(url_for("main"))
 
 
 # 메인화면 이동
 @app.route('/main')
-def main():
+def main() :
     # board = mongo.db.board
     # board = db
     # 페이지 값 (디폴트값 = 1)
@@ -86,8 +84,7 @@ def main():
     limit = 8
 
     # datas = db.weling.find({}).skip((page - 1) * limit).limit(limit)  # board컬럭션에 있는 모든 데이터를 가져옴
-    datas = list(db.weling.find({}).skip((page - 1) * limit).limit(limit)) # board컬럭션에 있는 모든 데이터를 가져옴
-
+    datas = list(db.weling.find({}).skip((page - 1) * limit).limit(limit))  # board컬럭션에 있는 모든 데이터를 가져옴
 
     # same_ages = list(db.weling.find({}, {'_id': False}))
     # user = db.users.find_one({'name': 'bobby'})
@@ -99,9 +96,8 @@ def main():
     tot_count = db.weling.count()
     # print(tot_count)
 
-
     # 마지막 페이지의 수 구하기
-    last_page_num = math.ceil(tot_count / limit) # 반드시 올림을 해줘야함
+    last_page_num = math.ceil(tot_count / limit)  # 반드시 올림을 해줘야함
     # print(last_page_num)
 
     #
@@ -121,44 +117,44 @@ def main():
     # print(block_end)
     # print(last_page_num)
 
-
     msg = request.args.get("msg")
-    return render_template('main.html', msg=msg,datas=datas, limit=limit, page=page, block_start=block_start,
-                               block_end=block_end, last_page_num=last_page_num)
+    return render_template('main.html', msg=msg, datas=datas, limit=limit, page=page, block_start=block_start,
+                           block_end=block_end, last_page_num=last_page_num)
+
 
 # 회원가입후 로그인창으로 이동
 @app.route('/login')
-def login():
+def login() :
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
 
 
-
 # 로그인 서버
 @app.route('/sign_in', methods=['POST'])
-def sign_in():
+def sign_in() :
     # 로그인
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+    result = db.users.find_one({'username' : username_receive, 'password' : pw_hash})
 
-    if result is not None:
+    if result is not None :
         payload = {
-         'id': username_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+            'id' : username_receive,
+            'exp' : datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
-        return jsonify({'result': 'success', 'token': token})
+        return jsonify({'result' : 'success', 'token' : token})
     # 찾지 못하면
-    else:
-        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+    else :
+        return jsonify({'result' : 'fail', 'msg' : '아이디/비밀번호가 일치하지 않습니다.'})
+
 
 # 회원가입 서버
 @app.route('/sign_up/save', methods=['POST'])
-def sign_up():
+def sign_up() :
     bool = request.form['bool']
     username = request.form['username_give']
     password = request.form['password_give']
@@ -171,14 +167,14 @@ def sign_up():
     password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
 
     doc = {
-        'username': username,  # 아이디
-        'password': password_hash,  # 비밀번호
-        'usernickname': usernickname,  # 프로필 닉네임
-        'userdata': userdata,  # 생년월일
-        'usergender': usergender  # 성별
+        'username' : username,  # 아이디
+        'password' : password_hash,  # 비밀번호
+        'usernickname' : usernickname,  # 프로필 닉네임
+        'userdata' : userdata,  # 생년월일
+        'usergender' : usergender  # 성별
     }
 
-    if bool == 'True':
+    if bool == 'True' :
         userfile = request.files['userfile_give']
         extention = userfile.filename.split('.')[-1]
         today = datetime.now()
@@ -186,37 +182,27 @@ def sign_up():
         filename = f'userfile-{mytime}'
         save_to = f'static/userfile/{filename}.{extention}'
         userfile.save(save_to)
-        doc.update({'userfile': f'{filename}.{extention}'})
-    elif bool == 'False':
+        doc.update({'userfile' : f'{filename}.{extention}'})
+    elif bool == 'False' :
         filename = "profile_placeholder.png"
-        doc.update({'userfile': filename})
+        doc.update({'userfile' : filename})
 
     db.users.insert_one(doc)
-    return jsonify({'result': 'success'})
-
+    return jsonify({'result' : 'success'})
 
 
 # 아이디 중복확인 서버
 @app.route('/sign_up/check_dup', methods=['POST'])
-def check_dup():
+def check_dup() :
     username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
-    return jsonify({'result': 'success', 'exists': exists})
-
-
-
-
-
-
-
-
-
-
+    exists = bool(db.users.find_one({"username" : username_receive}))
+    return jsonify({'result' : 'success', 'exists' : exists})
 
 
 @app.route('/insert')
-def insert():
+def insert() :
     return render_template('insert_form.html')
+
 
 @app.route('/api/insert_form', methods=['POST'])
 def save_insert() :
@@ -259,28 +245,36 @@ def save_insert() :
 @app.route("/api/detail/<int:id>", methods=['GET'])
 def read(id) :
     token_receive = request.cookies.get('mytoken')
-    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-    comments = list(db.comments.find({'content_id' : str(id)}))
-    user_info = db.users.find_one({"username" : payload["id"]})['userfile']
-    datas=list(db.weling.find({}))
-    end=len(datas)
-    print(id)
-    print(list(db.weling.find({'id':id})))
-    data= list(db.weling.find({'id':id}))[0]
-    index=datas.index(data)
-    next_index = index +1
-    prev_index = index -1
-    if next_index > end-1 :
-        next_index = 0
-    next_data_id= datas[next_index]['id']
-    prev_data_id=datas[prev_index]['id']
-    return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id,comments=comments, id=payload['id'], comments_len=len(comments),user_info=user_info)
+    try :
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        comments = list(db.comments.find({'content_id' : str(id)}))
+        user_info = db.users.find_one({"username" : payload["id"]})['userfile']
+        datas = list(db.weling.find({}))
+        end = len(datas)
+        print(id)
+        print(list(db.weling.find({'id' : id})))
+        data = list(db.weling.find({'id' : id}))[0]
+        index = datas.index(data)
+        next_index = index + 1
+        prev_index = index - 1
+        if next_index > end - 1 :
+            next_index = 0
+        next_data_id = datas[next_index]['id']
+        prev_data_id = datas[prev_index]['id']
+        return render_template("detail.html", data=data, next_id=next_data_id, prev_id=prev_data_id, comments=comments,
+                               id=payload['id'], comments_len=len(comments), user_info=user_info)
+
+    except jwt.ExpiredSignatureError :
+        return redirect(url_for("main", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError :
+        return redirect(url_for("main", msg="로그인 정보가 존재하지 않습니다."))
+    token_receive = request.cookies.get('mytoken')
+
 
 @app.route("/api/update/<int:id>", methods=['GET'])
-def update(id):
+def update(id) :
     data = list(db.weling.find({'id' : id}))[0]
-    return render_template("update.html",data=data)
-
+    return render_template("update.html", data=data)
 
 
 @app.route("/api/update-upload", methods=['POST'])
@@ -324,45 +318,44 @@ def update_upload() :
 
 
 @app.route('/api/delete', methods=['DELETE'])
-def delete():
+def delete() :
     id_receive = request.form['id_give']
     print(id_receive)
     db.weling.delete_one({'id' : int(id_receive)})
-    return jsonify({'result': 'success', 'msg': '삭제 완료'})
+    return jsonify({'result' : 'success', 'msg' : '삭제 완료'})
     # return render_template("main.html")
 
 
 @app.route('/api/comment-save', methods=['POST'])
-def comment_save():
+def comment_save() :
     token_receive = request.cookies.get('mytoken')
-    try:
-        content_id=request.form['content_id']
+    try :
+        content_id = request.form['content_id']
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"username" : payload["id"]})
         comment_receive = request.form["comment_give"]
         date_receive = request.form["date_give"]
         doc = {
-            "content_id": content_id,
+            "content_id" : content_id,
             "username" : user_info["username"],
-            "userfile": user_info["userfile"],
+            "userfile" : user_info["userfile"],
             "comment" : comment_receive,
             "date" : date_receive
         }
         db.comments.insert_one(doc)
-        result= list(db.comments.find({'content_id':content_id},{'_id':False}))
+        result = list(db.comments.find({'content_id' : content_id}, {'_id' : False}))
         print(result)
-        return jsonify({"result": result, 'msg': 'comment 저장 성공'})
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return jsonify({"result" : result, 'msg' : 'comment 저장 성공'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError) :
         return redirect(url_for("read", id=content_id))
 
 
-
 @app.route('/api/comment-remove', methods=['DELETE'])
-def comment_delete():
+def comment_delete() :
     content_id = request.form['content_id']
-    username=request.form['username_give']
-    date=request.form['date_give']
-    db.comments.delete_one({'username':username, 'date':date})
+    username = request.form['username_give']
+    date = request.form['date_give']
+    db.comments.delete_one({'username' : username, 'date' : date})
     result = list(db.comments.find({'content_id' : content_id}, {'_id' : False}))
     return jsonify({'result' : result, 'msg' : '삭제 완료'})
 
@@ -370,17 +363,62 @@ def comment_delete():
 @app.route("/api/comment-update", methods=['POST'])
 def comment_update() :
     print('도착!')
-    content_id=request.form['content_id']
+    content_id = request.form['content_id']
     username = request.form['username_give']
     date = request.form['date_give']
-    new_comment=request.form['new_comment']
+    new_comment = request.form['new_comment']
     doc = {
-        'comment':new_comment
+        'comment' : new_comment
     }
     print(doc)
-    db.comments.update_one({'username' : username,'date':date}, {'$set' : doc})
+    db.comments.update_one({'username' : username, 'date' : date}, {'$set' : doc})
     result = list(db.comments.find({'content_id' : content_id}, {'_id' : False}))
     return jsonify({'result' : result, 'msg' : '수정 완료'})
+
+
+@app.route("/get_posts", methods=['POST'])
+def get_likes() :
+    token_receive = request.cookies.get('mytoken')
+    try :
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+        content_id = request.form['content_id']
+        print(content_id)
+        count_heart = db.likes.count_documents({"id" : content_id})
+        heart_by_me = bool(db.likes.find_one({"id" : content_id, "username" : payload['id']}))
+        return jsonify(
+            {"result" : "success", "msg" : "포스팅을 가져왔습니다.", "count_heart" : count_heart, "heart_by_me" : heart_by_me})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError) :
+        return redirect(url_for("main"))
+
+
+@app.route('/update_like', methods=['POST'])
+def update_like() :
+    token_receive = request.cookies.get('mytoken')
+    try :
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username" : payload["id"]})
+
+        post_id_receive = request.form["post_id_give"]
+        action_receive = request.form["action_give"]
+        doc = {
+            "id" : post_id_receive,
+            "username" : user_info["username"],
+        }
+        if action_receive == "like" :
+            db.likes.insert_one(doc)
+        else :
+            db.likes.delete_one(doc)
+        count = db.likes.count_documents({"post_id" : post_id_receive})
+        return jsonify({"result" : "success", 'msg' : 'updated', "count" : count})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError) :
+        return redirect(url_for("main"))
+
+
+@app.route('/get-away', methods=['GET'])
+def get_away() :
+    token_receive = request.cookies.get('mytoken')
+    return jsonify({"result" : "success", 'msg' : 'updated', "token" : token_receive})
 
 
 if __name__ == '__main__' :
