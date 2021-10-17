@@ -4,13 +4,16 @@ body {font-family: 'Noto Sans KR', sans-serif; display:flex;align-content:center
 #wrapper {width: 100%; overflow: hidden;}
 
 /*상단 로고 및 이름*/
-#header {position:absolute; left: 0px; top: 0px; width: 100%; padding: 50px 0; background-color: transparent; z-index: 4; background-color: #FFFFFF}
-#header h1 {position: absolute; left: 60%; top: 50%; transform: translate(-50%, -50%); text-align: center; color: white;}
+#header {position:relative; left: 0px; top: 0px; width: 100%; padding: 0px 0; background-color: transparent; z-index: 4; }
+#header h1 {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); text-align: center; color: blue;}
 #header img {position:absolute; right: 85%; top: 50%; transform: translate(-50%, -50%); width: 70px; height: 50px;}
 .subtitle {font-size: small;}
-.writing{position:absolute; color:black; left:90%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
+.writing{position:absolute; color:black; left:71%; top:10%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
 .login{position:absolute; color:black; left:90%; top:30%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
-.login_out{position:absolute; color:black; left:81%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
+.login_out{position:absolute; color:black; left:40%; top:10%; border-radius:15px; border:1px solid black; background:0 0;  cursor:pointer;font-size: 1.2rem;  }
+.profile_box{position:relative; left:0%; background-color: #08AEEA;background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%); width: 320px; height: 40px; border-radius: 20px;}
+.profile_text{position:absolute; width: 150px; height: 40px; left: 12%; top: 20%;}
+
 
 /*!*중간 큰 이미지 및 글자*!*/
 #visual {position: relative; width: 100%; height:400px; text-align: center; overflow: hidden; }

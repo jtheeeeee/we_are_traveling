@@ -255,43 +255,29 @@
 <body>
 
 <div id="wrapper">
-    {#    <header id="header">#}
-    {#        <!--제목과 메뉴-->#}
-    {#        <a href="#"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span class="subtitle">we're traveling</span></h1></a>#}
-    {#<!--        "../logo.png" 로컬서버 안쓸때-->#}
-    {#        <button class="writing" onClick="location.href='insert'">작성하기</button>#}
-    {#    </header>#}
 
-
-    <nav class="navbar navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <a href="#"><h1><img style="flex-shrink:0; width: 40px; height: 40px;"
-                                     src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">
+<header id="header">
+    <nav class="navbar navbar-light bg-light" >
+                <a href="#"><h1><img style="flex-shrink:0; width: 40px; height: 40px;" src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">
                     위링 <span class="subtitle">we're traveling</span></h1></a>
+
                 {% if user_info %}
-                    <button class="login_out" onclick="sign_out()">로그아웃</button>
+                    <div class="profile_box">
+                        <img style="flex-shrink:0; left: 4%; width: 40px; height: 40px; border-radius: 50%;"
+                             src=../static/userfile/{{ user_info.userfile }} alt=""/>
+                      <p class="profile_text" >{{ user_info.usernickname }}</p>
+                {% endif %}
+            {% if user_info %}
+                    <button class="login_out"  onclick="sign_out()">로그아웃</button>
                     <button class="writing" onClick="location.href='insert'">작성하기</button>
+                        </div>
 
                 {% else %}
-                    <p>
                         <button class="login" onclick='$("#modal-post").addClass("is-active")'>로그인</button>
-                    </p>
                 {% endif %}
-                {% if user_info %}
-                    <div style="position:relative; right:18%; background-color: #08AEEA;
-                            background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%); width: 150px; height: 40px; border-radius: 20px;">
-                        <img style="flex-shrink:0; left: 10%; width: 40px; height: 40px; border-radius: 50%;"
-                             src=../static/userfile/{{ user_info.userfile }} alt=""/>
-                    </div>
-                    <p style="position:absolute; right:26%; top: 31%;">{{ user_info.usernickname }}</p>
-                {% endif %}
-
-            </a>
-        </div>
     </nav>
-
     </header>
+
 
 
     <main id="main">
