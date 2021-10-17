@@ -39,10 +39,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
-    <script>
-        {% if msg %}
-            alert("{{ msg }}")
-        {% endif %}
+        <script>
+
         // 로그인 클라이언트
         function sign_in() {
             let username = $("#input-username").val()
@@ -138,10 +136,45 @@
                         $("#input-username2").focus()
                     } else {
                         $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
+                        duplication_check();
+
                     }
                     $("#help-id").removeClass("is-loading")
+
                 }
             });
+
+        }
+
+        function duplication_check() {
+
+
+            let username = $("#input-username2").val()
+            let password = $("#input-password2").val()
+            let password2 = $("#input-password3").val()
+            let usernickname = $("#input-Nickname").val()
+            let userdata = $("#input-date").val()
+            let usergender = $('input[name=userGender]:checked').val();
+
+
+            let bool = 'True'
+            let userfile = $('#input-pic')[0].files[0]
+            if (userfile === undefined) {
+                bool = "False"
+                userfile = 'none'
+            }
+            let form_data = new FormData()
+
+            console.log(username, password, password2, usernickname, userdata, usergender, bool, userfile)
+            form_data.append("bool", bool)
+            form_data.append("userfile_give", userfile)
+            form_data.append("username_give", username)
+            form_data.append("password_give", password)
+            form_data.append("nickname_give", usernickname)
+            form_data.append("userdata_give", userdata)
+            form_data.append("usergender_give", usergender)
+
+
 
             if (password == "") {
                 $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
@@ -255,6 +288,13 @@
 <body>
 
 <div id="wrapper">
+    {#    <header id="header">#}
+    {#        <!--제목과 메뉴-->#}
+    {#        <a href="#"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span class="subtitle">we're traveling</span></h1></a>#}
+    {#<!--        "../logo.png" 로컬서버 안쓸때-->#}
+    {#        <button class="writing" onClick="location.href='insert'">작성하기</button>#}
+    {#    </header>#}
+
 
 <header id="header">
     <nav class="navbar navbar-light bg-light" >
@@ -277,7 +317,6 @@
                 {% endif %}
     </nav>
     </header>
-
 
 
     <main id="main">
@@ -348,7 +387,7 @@
 
         <div onclick='$("#modal-post").removeClass("is-active")'></div>
 
-        <form action='index.html' id="login_box">
+        <form action='index.html' id="login_box" >
             <div class="Login_Form">
                 <h1>LOGIN</h1>
                 <div class='txtb'><input id="input-username" type="text" placeholder='ID'></div>
