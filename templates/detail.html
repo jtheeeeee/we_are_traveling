@@ -377,6 +377,11 @@
         }
     </style>
     <script>
+
+         $(document).ready(function () {
+            get_likes()
+
+        })
         function delete_content(id) {
             $.ajax({
                 type: 'DELETE',
@@ -470,7 +475,7 @@
             $(`.comment-content-${i}`).addClass("is-hidden")
         }
 
-        function make_comment_list(comment_len, comments) {
+          function make_comment_list(comment_len, comments) {
             $('.tab_container').empty();
             $('.tab_container').append(`
                     <input id="tab1" type="radio" name="tabs" >
@@ -501,7 +506,7 @@
                         <article class="media">
                             <figure class="media-left">
                                 <p class="image is-64x64">
-                                    <img src="/static/${comments[i]['userprofile']}">
+                                    <img src="/static/userfile/${comments[i]['userfile']}">
                                 </p>
                             </figure>
                             <div class="media-content">
@@ -519,6 +524,7 @@
                                               >${comments[i]['comment']}</textarea>
                                             <button onclick="update_comment('${comments[i]['username']}','${comments[i]['date']}','${i}')">update</button>
                                         </div>
+
                                     </p>
                                 </div>
                             </div>
@@ -530,7 +536,7 @@
                     <article class="media">
                         <figure class="media-left">
                             <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                <img src={{ url_for('static', filename='userfile/'+user_info) }}>
                             </p>
                         </figure>
                         <div class="media-content">
@@ -549,6 +555,7 @@
                     </article>
                 </div>`)
         }
+
 
         function get_likes() {
             $("#like_bookmark").empty()
