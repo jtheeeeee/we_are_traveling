@@ -6,15 +6,8 @@
  
 
 ### 🔗라이브
-<<<<<<< HEAD
-<<<<<<< HEAD
-[We-ling.site](We-ling.site)  
-=======
 [weling.site](http://weling.site/)  
->>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
-=======
-[weling.site](http://weling.site/)  
->>>>>>> parent of f479fce (Merge pull request #45 from jtheeeeee/taehee)
+
 
 ### ✈️ 소개
 위링(we-ling)은 여행을 기반으로한 정보 공유 및 커뮤니티 기능을 가지고 있습니다.
@@ -36,7 +29,7 @@ We are traveling의 약자이며 여행자들을 대상으로 서비스를 제�
 ### 📌 기술
 - HTML, CSS, JavaScript, Ajax, Jinja, jQuery
 - pycharm, Robo3-T
-- Flask, jinja2, aws, mongodb  
+- Flask, jinja2, aws, mongodb,pyJWT
 
 ### 📌 기술 선택 이유 [ - 상세보기](https://github.com/jtheeeeee/we_are_traveling/wiki/%EA%B8%B0%EC%88%A0-%EC%84%A0%ED%83%9D-%EC%9D%B4%EC%9C%A0)
 
