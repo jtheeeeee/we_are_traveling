@@ -1,4 +1,4 @@
-## 스파르타내일배움캠프 첫 번째 프로젝트(Weling)
+## 스파르타내일배움캠프 프로젝트(Weling)
 ![Generic badge](https://img.shields.io/badge/pycharm-3.8-yellowgreen.svg) ![Generic badge](https://img.shields.io/badge/Robo3T-1.4.4-green.svg) ![Generic badge](https://img.shields.io/badge/mongoDB-5.0-orange.svg) ![Generic badge](https://img.shields.io/badge/Flask-2.0.1-blue.svg)
 
 <p align="center"><img src="./static/img/logo.png" height="200px" width="300px"></p>  
