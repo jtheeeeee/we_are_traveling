@@ -519,7 +519,6 @@
                                               >${comments[i]['comment']}</textarea>
                                             <button onclick="update_comment('${comments[i]['username']}','${comments[i]['date']}','${i}')">update</button>
                                         </div>
-                                        <small>3 hrs</small>
                                     </p>
                                 </div>
                             </div>
@@ -619,18 +618,6 @@
 
         }
 
-        function get_away() {
-            if ({{ userinfo }} == null
-        )
-            {
-                alert('로그인 해주세요')
-                window.location.reload();
-            }
-        }
-
-        $(document).ready(function () {
-
-        })
 
     </script>
 </head>
@@ -713,7 +700,6 @@
                                             update
                                         </button>
                                     </div>
-                                    <small>3 hrs</small>
                                     </p>
                                 </div>
                             </div>
