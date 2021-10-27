@@ -10,9 +10,11 @@
 
     <meta property="og:title" content="위링 여행정보"/>
     <meta property="og:description" content="여행정보 공유기능"/>
-    <meta property="og:image" content="{{ url_for('static', filename='logo_white.png') }}"/>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+
+{#    <meta property="og:image" content="static/img/logo.png"/>#}
+{#    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">#}
+{#    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">#}
+
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
@@ -21,7 +23,8 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='{{ url_for("static", filename="mystyle.css") }}' rel="stylesheet">
+
+    <link href='static/js/main.js' rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -65,13 +68,13 @@
 <div id="body_all">
     <header id="header">
         <!--제목과 메뉴-->
-        <a href="/"><h1><img src="{{ url_for('static', filename='img/logo.png') }}" alt="icon">위링 <span class="subtitle">we're traveling</span>
+        <a href="/"><h1><img src="static/img/logo.png" alt="icon">위링 <span class="subtitle">we're traveling</span>
         </h1></a>
     </header>
     <main id="main">
         <!--메인비주얼-->
         <section id="visual">
-            <img src="{{ url_for('static', filename='img/main.jpg') }}">
+            <img src="static/img/main.jpg">
         </section>
         </p>
         <table class="table_list">
